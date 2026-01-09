@@ -54,24 +54,29 @@
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+
+        /* Home Button Styling */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+        .home-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
-    <!-- 
-        선택된 팔레트: "Digital Earth" (선명한 고대비)
-        파랑: #2563EB, 빨강: #EF4444, 호박색: #F59E0B, 에메랄드: #10B981
-        
-        서사 계획:
-        1. 도입: 5개년 범위와 위급한 상황 강조.
-        2. 대시보드: 2024년 현재 상태 즉각 시각화.
-        3. 가스 추세: CO2/CH4의 꾸준한 축적량 표시.
-        4. 기온 급등: 2023년의 이상 현상 집중 분석.
-        5. 심층 분석: 2023년 급등 원인 (프로세스 플로우).
-        6. 상관관계: 온실가스와 기온 사이의 과학적 연결 고리.
-        7. 결론: 행동 촉구.
-        
-        SVG 및 MERMAID JS 미사용.
-    -->
 </head>
 <body class="text-gray-800 antialiased">
+
+    <!-- 홈 버튼 -->
+    <a href="index.html" class="home-btn flex items-center gap-2 bg-white/90 backdrop-blur-sm text-blue-700 px-4 py-2 rounded-full shadow-lg border border-blue-100 font-bold hover:bg-white hover:shadow-xl group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span>홈으로</span>
+    </a>
 
     <!-- 헤더 / 히어로 섹션 -->
     <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-16 px-4 shadow-xl">
@@ -86,7 +91,7 @@
 
     <main class="max-w-7xl mx-auto px-4 py-12 space-y-16">
 
-        <!-- 섹션 1: 2024 상태 대시보드 (목표: 정보 전달) -->
+        <!-- 섹션 1: 2024 상태 대시보드 -->
         <section class="fade-in">
             <div class="mb-8 border-l-8 border-blue-600 pl-4">
                 <h2 class="text-3xl font-bold text-gray-900">2024년 현재 지표</h2>
@@ -126,7 +131,7 @@
             </div>
         </section>
 
-        <!-- 섹션 2: 온실가스 추세 (목표: 변화 추적) -->
+        <!-- 섹션 2: 온실가스 추세 -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start fade-in">
             <div class="order-2 lg:order-1">
                 <div class="chart-container bg-white p-4 rounded-xl shadow-md">
@@ -148,7 +153,7 @@
             </div>
         </section>
 
-        <!-- 섹션 3: 기온 급등 구간 (목표: 특이점 강조) -->
+        <!-- 섹션 3: 기온 급등 구간 -->
         <section class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 fade-in">
             <div class="text-center max-w-3xl mx-auto mb-8">
                 <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-4">2023년: 기후의 임계점</h2>
@@ -176,7 +181,7 @@
             </div>
         </section>
 
-        <!-- 섹션 4: 급등 원인 분석 (목표: 프로세스 시각화) -->
+        <!-- 섹션 4: 급등 원인 분석 -->
         <section class="fade-in">
             <div class="mb-8 border-l-8 border-indigo-600 pl-4">
                 <h2 class="text-3xl font-bold text-gray-900">왜 2023년에 폭발했는가?</h2>
@@ -207,13 +212,9 @@
                     <p class="text-sm text-gray-300">결합된 효과가 지구의 냉각 메커니즘을 압도하며 기온 급등을 유발했습니다.</p>
                 </div>
             </div>
-            
-            <p class="text-center text-gray-500 italic mt-4 max-w-2xl mx-auto">
-                "그동안 바다가 과잉 열의 90%를 흡수하며 완충 작용을 해왔으나, 2023년에는 바다의 수용 능력이 한계에 부딪히며 열을 대기로 뿜어내기 시작했습니다."
-            </p>
         </section>
 
-        <!-- 섹션 5: 상관관계 분석 (목표: 관계 규명) -->
+        <!-- 섹션 5: 상관관계 분석 -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center fade-in">
             <div>
                 <div class="mb-4 border-l-8 border-purple-600 pl-4">
@@ -243,24 +244,11 @@
             <h2 class="text-3xl font-bold mb-6">앞으로의 과제</h2>
             <div class="max-w-3xl mx-auto text-gray-300 space-y-4 mb-8">
                 <p>2020-2024 데이터는 인류에게 보내는 강력한 경고입니다. 2023년의 1.0°C 상승은 기후 변화가 선형적이지 않으며, 언제든 급격하고 폭력적인 변화로 이어질 수 있음을 보여줍니다.</p>
-                <p>온도 안정화를 위해서는 근본 원인인 온실가스의 지속적인 축적을 막아야 합니다.</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                <div class="bg-gray-800 p-4 rounded-lg">
-                    <div class="font-bold text-emerald-400 mb-1">에너지 전환</div>
-                    <div class="text-sm text-gray-400">재생 에너지로의 전환 가속화</div>
-                </div>
-                <div class="bg-gray-800 p-4 rounded-lg">
-                    <div class="font-bold text-yellow-400 mb-1">메탄 배출 관리</div>
-                    <div class="text-sm text-gray-400">단기 체류 오염 물질 집중 타겟</div>
-                </div>
-                <div class="bg-gray-800 p-4 rounded-lg">
-                    <div class="font-bold text-blue-400 mb-1">해양 모니터링</div>
-                    <div class="text-sm text-gray-400">심해 열 흡수량 분석 강화</div>
-                </div>
-            </div>
-            <div class="mt-12 text-xs text-gray-500">
-                출처: 2020-2024 기후 데이터 분석 • Canvas 인포그래픽 생성
+                <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">에너지 전환</div>
+                <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">메탄 배출 관리</div>
+                <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">해양 모니터링</div>
             </div>
         </footer>
 
@@ -274,11 +262,7 @@
 
         const commonTooltip = {
             callbacks: {
-                title: function(tooltipItems) {
-                    const item = tooltipItems[0];
-                    let label = item.chart.data.labels[item.dataIndex];
-                    return Array.isArray(label) ? label.join(' ') : label;
-                }
+                title: (tooltipItems) => tooltipItems[0].label
             }
         };
 
@@ -289,25 +273,8 @@
             data: {
                 labels: years,
                 datasets: [
-                    {
-                        label: '이산화탄소 농도 (ppm)',
-                        data: co2Data,
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 3,
-                        yAxisID: 'y',
-                        tension: 0.4
-                    },
-                    {
-                        label: '메탄 농도 (ppb)',
-                        data: methaneData,
-                        borderColor: '#F59E0B',
-                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        borderWidth: 3,
-                        yAxisID: 'y1',
-                        borderDash: [5, 5],
-                        tension: 0.4
-                    }
+                    { label: '이산화탄소 (ppm)', data: co2Data, borderColor: '#10B981', borderWidth: 3, yAxisID: 'y', tension: 0.4 },
+                    { label: '메탄 (ppb)', data: methaneData, borderColor: '#F59E0B', borderWidth: 3, yAxisID: 'y1', borderDash: [5, 5], tension: 0.4 }
                 ]
             },
             options: {
@@ -315,12 +282,7 @@
                 maintainAspectRatio: false,
                 plugins: {
                     tooltip: commonTooltip,
-                    legend: { position: 'top', labels: { font: { family: 'Noto Sans KR' } } },
-                    title: { display: true, text: '온실가스 축적 추이 (2020-2024)', font: { size: 16 } }
-                },
-                scales: {
-                    y: { position: 'left', title: { display: true, text: 'CO2 (ppm)' } },
-                    y1: { position: 'right', title: { display: true, text: 'Methane (ppb)' }, grid: { drawOnChartArea: false } }
+                    title: { display: true, text: '온실가스 축적 추이', font: { family: 'Noto Sans KR', size: 16 } }
                 }
             }
         });
@@ -335,69 +297,38 @@
                     label: '지구 평균 기온 (°C)',
                     data: tempData,
                     borderColor: '#EF4444',
-                    backgroundColor: (context) => {
-                        const ctx = context.chart.ctx;
-                        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                        gradient.addColorStop(0, 'rgba(239, 68, 68, 0.5)');
-                        gradient.addColorStop(1, 'rgba(239, 68, 68, 0.0)');
-                        return gradient;
-                    },
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
                     fill: true,
                     borderWidth: 4,
-                    pointBackgroundColor: ['#EF4444', '#EF4444', '#EF4444', '#000000', '#EF4444'],
-                    pointRadius: [4, 4, 4, 8, 4],
+                    pointBackgroundColor: (c) => c.dataIndex === 3 ? '#000' : '#EF4444',
+                    pointRadius: (c) => c.dataIndex === 3 ? 8 : 4,
                     tension: 0.3
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    tooltip: commonTooltip,
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { min: 13.0, max: 15.0, title: { display: true, text: '기온 (°C)' } }
-                }
+                scales: { y: { min: 13.0, max: 15.0 } }
             }
         });
 
         // 차트 3: 상관관계 산점도
-        const scatterData = co2Data.map((co2, index) => ({
-            x: co2,
-            y: tempData[index],
-            year: years[index]
-        }));
-
         const ctxCorr = document.getElementById('correlationChart').getContext('2d');
         new Chart(ctxCorr, {
             type: 'scatter',
             data: {
                 datasets: [{
-                    label: 'CO2 vs 기온 상관관계',
-                    data: scatterData,
-                    backgroundColor: (context) => context.dataIndex === 3 ? '#000000' : '#8B5CF6',
-                    pointRadius: 8,
-                    pointHoverRadius: 12
+                    label: '상관관계',
+                    data: co2Data.map((co2, i) => ({ x: co2, y: tempData[i] })),
+                    backgroundColor: (c) => c.dataIndex === 3 ? '#000' : '#8B5CF6',
+                    pointRadius: 8
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: (context) => {
-                                const p = context.raw;
-                                return `${p.year}: ${p.x} ppm / ${p.y}°C`;
-                            }
-                        }
-                    },
-                    legend: { display: false },
-                    title: { display: true, text: 'CO2 농도(X) vs 기온(Y) 분포' }
-                },
                 scales: {
-                    x: { title: { display: true, text: 'CO2 농도 (ppm)' }, min: 415, max: 430 },
+                    x: { title: { display: true, text: 'CO2 (ppm)' }, min: 415, max: 430 },
                     y: { title: { display: true, text: '기온 (°C)' }, min: 13.0, max: 15.0 }
                 }
             }
