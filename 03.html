@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>청소년 스트레스 인지율 데이터 보고서</title>
+    <title>청소년 스트레스 인지율 데이터 대시보드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
@@ -11,261 +11,176 @@
         
         body {
             font-family: 'Pretendard', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             color: #0f172a;
         }
 
-        .gradient-bg {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-        }
-
-        .card {
+        .chart-card {
             background: white;
-            border-radius: 1.5rem;
+            border-radius: 1rem;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            padding: 1.5rem;
         }
 
-        .card:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .tab-btn.active {
-            background-color: #4f46e5;
-            color: white;
+        .data-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="p-4 md:p-8">
 
-    <!-- Header -->
-    <header class="gradient-bg text-white py-20 px-6 text-center shadow-xl">
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">청소년 스트레스 데이터 대시보드</h1>
-        <p class="text-lg md:text-xl opacity-90 max-w-3xl mx-auto font-light leading-relaxed">
-            분석 파일(`03조_청소년_스트레스_인지율.ipynb`)의 실제 통계 데이터를 기반으로 제작된 <br>
-            대한민국 청소년의 심리적 건강 지표 보고서입니다.
-        </p>
-    </header>
+    <div class="max-w-6xl mx-auto">
+        <!-- 제목 섹션 -->
+        <div class="mb-10 border-b border-slate-200 pb-6">
+            <h1 class="text-3xl font-extrabold text-slate-900 mb-2">청소년 스트레스 인지율 분석 결과</h1>
+            <p class="text-slate-500">제 03조 | 데이터 출처: 청소년건강행태조사 (03조_청소년_스트레스_인지율.ipynb)</p>
+        </div>
 
-    <main class="max-w-7xl mx-auto px-4 py-12 -mt-10">
-        
-        <!-- 핵심 지표 요약 (파일 데이터 반영) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <div class="card p-6 text-center border-t-4 border-t-indigo-500">
-                <p class="text-slate-500 text-sm font-bold mb-1">최근 전체 인지율</p>
-                <div class="text-4xl font-black text-indigo-600">41.3%</div>
-                <p class="text-xs text-slate-400 mt-2">전년 대비 소폭 상승</p>
+        <!-- 주요 수치 요약 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="chart-card flex flex-col items-center justify-center border-t-4 border-indigo-500">
+                <span class="data-label">전체 스트레스 인지율</span>
+                <span class="text-4xl font-black text-indigo-600">41.3%</span>
             </div>
-            <div class="card p-6 text-center border-t-4 border-t-pink-500">
-                <p class="text-slate-500 text-sm font-bold mb-1">여학생 평균</p>
-                <div class="text-4xl font-black text-pink-500">47.8%</div>
-                <p class="text-xs text-slate-400 mt-2">남학생 대비 약 12%p 높음</p>
+            <div class="chart-card flex flex-col items-center justify-center border-t-4 border-pink-500">
+                <span class="data-label">여학생 스트레스 인지율</span>
+                <span class="text-4xl font-black text-pink-500">47.8%</span>
             </div>
-            <div class="card p-6 text-center border-t-4 border-t-blue-500">
-                <p class="text-slate-500 text-sm font-bold mb-1">남학생 평균</p>
-                <div class="text-4xl font-black text-blue-500">35.2%</div>
-                <p class="text-xs text-slate-400 mt-2">상대적으로 낮은 수치 유지</p>
-            </div>
-            <div class="card p-6 text-center border-t-4 border-t-amber-500">
-                <p class="text-slate-500 text-sm font-bold mb-1">최고 인지율 그룹</p>
-                <div class="text-4xl font-black text-amber-500">고3 여학생</div>
-                <p class="text-xs text-slate-400 mt-2">입시 스트레스 집중 구간</p>
+            <div class="chart-card flex flex-col items-center justify-center border-t-4 border-blue-500">
+                <span class="data-label">남학생 스트레스 인지율</span>
+                <span class="text-4xl font-black text-blue-500">35.2%</span>
             </div>
         </div>
 
-        <!-- 메인 분석 차트 -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <!-- 그래프 영역 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
             
-            <!-- 추이 분석 -->
-            <div class="card p-8 lg:col-span-2">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                    <div>
-                        <h2 class="text-2xl font-bold">연도별 및 성별 추이 분석</h2>
-                        <p class="text-slate-500 text-sm">2020년~2024년 통계 데이터 시각화</p>
-                    </div>
-                    <div class="flex bg-slate-100 p-1 rounded-xl">
-                        <button onclick="updateMainChart('total')" id="btn-total" class="tab-btn active px-4 py-1.5 rounded-lg text-sm font-bold transition">전체</button>
-                        <button onclick="updateMainChart('gender')" id="btn-gender" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-bold transition">성별 비교</button>
-                    </div>
-                </div>
-                <div class="h-[350px]">
-                    <canvas id="mainChart"></canvas>
+            <!-- 연도별 추이 그래프 -->
+            <div class="chart-card">
+                <h3 class="text-lg font-bold mb-4">연도별 스트레스 인지율 변화 (2020-2024)</h3>
+                <div class="h-64">
+                    <canvas id="trendChart"></canvas>
                 </div>
             </div>
 
-            <!-- 학교급별 비교 -->
-            <div class="card p-8">
-                <h2 class="text-2xl font-bold mb-2">학교급별 차이</h2>
-                <p class="text-slate-500 text-sm mb-6">중학교 vs 고등학교 인지율</p>
-                <div class="h-[350px]">
-                    <canvas id="schoolChart"></canvas>
+            <!-- 성별 비교 그래프 -->
+            <div class="chart-card">
+                <h3 class="text-lg font-bold mb-4">성별 스트레스 인지율 편차</h3>
+                <div class="h-64">
+                    <canvas id="genderComparisonChart"></canvas>
                 </div>
             </div>
-        </div>
 
-        <!-- 하단 상세 데이터 섹션 -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <!-- 지역별 데이터 (파일 분석 내용 기반) -->
-            <div class="card p-8">
-                <h2 class="text-2xl font-bold mb-6">시도별 스트레스 인지율 (상위/하위)</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="border-b border-slate-100">
-                                <th class="py-3 font-semibold text-slate-600">지역명</th>
-                                <th class="py-3 font-semibold text-slate-600">인지율(%)</th>
-                                <th class="py-3 font-semibold text-slate-600">상태</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm">
-                            <tr class="border-b border-slate-50">
-                                <td class="py-3 font-medium">서울</td>
-                                <td class="py-3">42.1%</td>
-                                <td class="py-3"><span class="px-2 py-1 bg-rose-100 text-rose-600 rounded-md text-xs">높음</span></td>
-                            </tr>
-                            <tr class="border-b border-slate-50">
-                                <td class="py-3 font-medium">부산</td>
-                                <td class="py-3">40.5%</td>
-                                <td class="py-3"><span class="px-2 py-1 bg-amber-100 text-amber-600 rounded-md text-xs">보통</span></td>
-                            </tr>
-                            <tr class="border-b border-slate-50">
-                                <td class="py-3 font-medium">대구</td>
-                                <td class="py-3">38.9%</td>
-                                <td class="py-3"><span class="px-2 py-1 bg-emerald-100 text-emerald-600 rounded-md text-xs">낮음</span></td>
-                            </tr>
-                            <tr class="border-b border-slate-50">
-                                <td class="py-3 font-medium">경기</td>
-                                <td class="py-3">41.8%</td>
-                                <td class="py-3"><span class="px-2 py-1 bg-rose-100 text-rose-600 rounded-md text-xs">높음</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- 학교급별 그래프 -->
+            <div class="chart-card">
+                <h3 class="text-lg font-bold mb-4">중·고등학교급별 인지율 비교</h3>
+                <div class="h-64">
+                    <canvas id="schoolLevelChart"></canvas>
                 </div>
-                <p class="text-xs text-slate-400 mt-4">* 분석 파일 내 지역별 통계 결과의 일부를 발췌하였습니다.</p>
             </div>
 
-            <!-- 분석 결과 결론 -->
-            <div class="card p-8 bg-slate-900 text-white">
-                <h2 class="text-2xl font-bold mb-6 text-indigo-400">데이터 분석 결과 요약</h2>
-                <div class="space-y-6">
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-8 h-8 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 font-bold">1</div>
-                        <p class="text-slate-300">지난 5년간 청소년의 스트레스 인지율은 지속적인 **우상향 곡선**을 그리며 심리적 방역의 필요성을 시사합니다.</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-8 h-8 bg-pink-500/20 rounded-full flex items-center justify-center text-pink-400 font-bold">2</div>
-                        <p class="text-slate-300">**성별 편차**가 뚜렷하며, 여학생의 경우 학업 외에도 외모 및 교우 관계 스트레스 민감도가 더 높게 분석되었습니다.</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="flex-shrink-0 w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400 font-bold">3</div>
-                        <p class="text-slate-300">**고등학교 3학년** 진입 시 스트레스 지수가 임계점에 도달하므로, 해당 시기에 집중적인 심리 상담 지원이 필요합니다.</p>
-                    </div>
+            <!-- 지역별 편차 데이터 -->
+            <div class="chart-card">
+                <h3 class="text-lg font-bold mb-4">주요 지역별 인지율 데이터</h3>
+                <div class="h-64">
+                    <canvas id="regionChart"></canvas>
                 </div>
             </div>
         </div>
 
-    </main>
-
-    <footer class="bg-white border-t border-slate-200 py-12 px-6 text-center">
-        <p class="text-slate-500 font-medium">03조 청소년 스트레스 인지율 분석 결과물</p>
-        <p class="text-slate-400 text-sm mt-2">© 2026 Data Analysis Project. Built with Chart.js & Tailwind CSS.</p>
-    </footer>
+        <!-- 데이터 세부 분석 요약 (그래프 기반) -->
+        <div class="chart-card bg-slate-50 border-none">
+            <h3 class="text-xl font-bold mb-4">그래프 기반 분석 결과</h3>
+            <ul class="space-y-3 text-slate-700">
+                <li class="flex items-start gap-2">
+                    <span class="text-indigo-600 font-bold">•</span>
+                    <span><strong>시계열 분석:</strong> 2020년(37.2%) 대비 2024년(41.3%)으로 인지율이 지속적으로 상승하는 추세를 보임.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-indigo-600 font-bold">•</span>
+                    <span><strong>성별 분석:</strong> 전 연도에서 여학생의 인지율이 남학생보다 약 12%p 이상 일관되게 높게 나타남.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-indigo-600 font-bold">•</span>
+                    <span><strong>학급 분석:</strong> 고등학생(43.9%)이 중학생(38.7%)보다 높은 스트레스 수치를 기록함.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <script>
-        // 메인 차트 설정
-        let mainCtx = document.getElementById('mainChart').getContext('2d');
-        let mainChart;
-
-        const mainData = {
-            total: {
+        // 1. 연도별 추이
+        new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
                 labels: ['2020', '2021', '2022', '2023', '2024'],
                 datasets: [{
-                    label: '전체 인지율 (%)',
+                    label: '전체 인지율(%)',
                     data: [37.2, 38.3, 40.1, 39.5, 41.3],
                     borderColor: '#4f46e5',
-                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 4
+                    backgroundColor: '#4f46e5',
+                    tension: 0.2,
+                    fill: false,
+                    borderWidth: 3
                 }]
             },
-            gender: {
-                labels: ['2020', '2021', '2022', '2023', '2024'],
-                datasets: [
-                    {
-                        label: '여학생 (%)',
-                        data: [43.4, 44.5, 46.8, 46.2, 47.8],
-                        borderColor: '#ec4899',
-                        backgroundColor: '#ec4899',
-                        tension: 0.4,
-                        borderWidth: 3
-                    },
-                    {
-                        label: '남학생 (%)',
-                        data: [31.5, 32.8, 34.0, 33.5, 35.2],
-                        borderColor: '#3b82f6',
-                        backgroundColor: '#3b82f6',
-                        tension: 0.4,
-                        borderWidth: 3
-                    }
-                ]
-            }
-        };
+            options: { responsive: true, maintainAspectRatio: false }
+        });
 
-        // 학교급별 차트 설정
-        let schoolCtx = document.getElementById('schoolChart').getContext('2d');
-        new Chart(schoolCtx, {
+        // 2. 성별 비교
+        new Chart(document.getElementById('genderComparisonChart'), {
             type: 'bar',
             data: {
-                labels: ['중학생', '고등학생'],
+                labels: ['남학생', '여학생'],
                 datasets: [{
-                    label: '스트레스 인지율 (%)',
-                    data: [38.7, 43.9],
-                    backgroundColor: ['#818cf8', '#4f46e5'],
-                    borderRadius: 8
+                    label: '평균 인지율(%)',
+                    data: [35.2, 47.8],
+                    backgroundColor: ['#3b82f6', '#ec4899']
                 }]
             },
-            options: {
-                responsive: true,
+            options: { 
+                responsive: true, 
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
                 scales: { y: { beginAtZero: true, max: 60 } }
             }
         });
 
-        function initMainChart() {
-            mainChart = new Chart(mainCtx, {
-                type: 'line',
-                data: mainData.total,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'top', labels: { font: { weight: 'bold' } } }
-                    },
-                    scales: {
-                        y: { 
-                            min: 30, 
-                            max: 55,
-                            grid: { color: '#f1f5f9' }
-                        }
-                    }
-                }
-            });
-        }
+        // 3. 학교급별 비교
+        new Chart(document.getElementById('schoolLevelChart'), {
+            type: 'bar',
+            data: {
+                labels: ['중학교', '고등학교'],
+                datasets: [{
+                    label: '인지율(%)',
+                    data: [38.7, 43.9],
+                    backgroundColor: ['#94a3b8', '#1e293b']
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                indexAxis: 'y'
+            }
+        });
 
-        function updateMainChart(type) {
-            mainChart.data = mainData[type];
-            mainChart.update();
-
-            // 버튼 상태 업데이트
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-' + type).classList.add('active');
-        }
-
-        window.onload = initMainChart;
+        // 4. 지역별 데이터 (상위 샘플)
+        new Chart(document.getElementById('regionChart'), {
+            type: 'line',
+            data: {
+                labels: ['대구', '부산', '경기', '서울'],
+                datasets: [{
+                    label: '지역별 인지율(%)',
+                    data: [38.9, 40.5, 41.8, 42.1],
+                    borderColor: '#10b981',
+                    borderDash: [5, 5],
+                    fill: false
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
     </script>
 </body>
 </html>
