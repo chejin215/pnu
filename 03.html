@@ -47,26 +47,26 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- 2. 성별 비교 그래프 -->
+                <!-- 2. 성별 비교 그래프 (꺾은선으로 변경) -->
                 <div class="chart-wrapper">
-                    <h3 class="text-lg font-semibold mb-6 text-slate-700">성별 스트레스 인지율 비교</h3>
+                    <h3 class="text-lg font-semibold mb-6 text-slate-700">성별 스트레스 인지율 추이 비교</h3>
                     <div class="chart-container">
                         <canvas id="genderComparisonChart"></canvas>
                     </div>
                 </div>
 
-                <!-- 3. 학교급별 그래프 -->
+                <!-- 3. 학교급별 그래프 (꺾은선으로 변경) -->
                 <div class="chart-wrapper">
-                    <h3 class="text-lg font-semibold mb-6 text-slate-700">중·고등학교급별 인지율</h3>
+                    <h3 class="text-lg font-semibold mb-6 text-slate-700">학교급별 스트레스 인지율 추이</h3>
                     <div class="chart-container">
                         <canvas id="schoolLevelChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- 4. 성별 및 학교급별 통합 분석 그래프 -->
+            <!-- 4. 성별 및 학교급별 통합 분석 그래프 (꺾은선으로 변경) -->
             <div class="chart-wrapper">
-                <h3 class="text-lg font-semibold mb-6 text-slate-700">성별 및 학교급별 통합 분석</h3>
+                <h3 class="text-lg font-semibold mb-6 text-slate-700">성별 및 학교급별 통합 분석 (전체 꺾은선)</h3>
                 <div class="chart-container">
                     <canvas id="combinedChart"></canvas>
                 </div>
@@ -84,6 +84,9 @@
                     position: 'top',
                     labels: { font: { family: 'Pretendard', size: 13 } }
                 }
+            },
+            scales: {
+                y: { beginAtZero: false, min: 25, max: 55 }
             }
         };
 
@@ -99,86 +102,120 @@
                     backgroundColor: 'rgba(79, 70, 229, 0.1)',
                     borderWidth: 4,
                     pointRadius: 6,
-                    pointBackgroundColor: '#4f46e5',
                     tension: 0.3,
                     fill: true
                 }]
             },
-            options: {
-                ...commonOptions,
-                scales: {
-                    y: { beginAtZero: false, min: 30, max: 50 }
-                }
-            }
+            options: commonOptions
         });
 
-        // 2. 성별 비교 (Bar Chart)
+        // 2. 성별 비교 (Line Chart)
         new Chart(document.getElementById('genderComparisonChart'), {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: ['남학생', '여학생'],
-                datasets: [{
-                    label: '인지율(%)',
-                    data: [35.2, 47.8],
-                    backgroundColor: ['#3b82f6', '#ec4899'],
-                    borderRadius: 10,
-                    barThickness: 60
-                }]
-            },
-            options: {
-                ...commonOptions,
-                scales: {
-                    y: { beginAtZero: true, max: 60 }
-                }
-            }
-        });
-
-        // 3. 학교급별 비교 (Horizontal Bar Chart)
-        new Chart(document.getElementById('schoolLevelChart'), {
-            type: 'bar',
-            data: {
-                labels: ['중학교', '고등학교'],
-                datasets: [{
-                    label: '인지율(%)',
-                    data: [38.7, 43.9],
-                    backgroundColor: ['#94a3b8', '#1e293b'],
-                    borderRadius: 10,
-                    barThickness: 60
-                }]
-            },
-            options: {
-                ...commonOptions,
-                indexAxis: 'y',
-                scales: {
-                    x: { beginAtZero: true, max: 60 }
-                }
-            }
-        });
-
-        // 4. 성별 + 학교급별 통합 분석 (Grouped Bar Chart)
-        new Chart(document.getElementById('combinedChart'), {
-            type: 'bar',
-            data: {
-                labels: ['중학교', '고등학교'],
+                labels: ['2020', '2021', '2022', '2023', '2024'],
                 datasets: [
                     {
-                        label: '남학생(%)',
-                        data: [32.4, 38.0],
-                        backgroundColor: '#3b82f6',
-                        borderRadius: 8
+                        label: '여학생(%)',
+                        data: [43.4, 44.5, 46.8, 46.2, 47.8],
+                        borderColor: '#ec4899',
+                        backgroundColor: '#ec4899',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.3
                     },
                     {
-                        label: '여학생(%)',
-                        data: [45.0, 50.6],
-                        backgroundColor: '#ec4899',
-                        borderRadius: 8
+                        label: '남학생(%)',
+                        data: [31.5, 32.8, 34.0, 33.5, 35.2],
+                        borderColor: '#3b82f6',
+                        backgroundColor: '#3b82f6',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: commonOptions
+        });
+
+        // 3. 학교급별 비교 (Line Chart)
+        new Chart(document.getElementById('schoolLevelChart'), {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [
+                    {
+                        label: '고등학생(%)',
+                        data: [39.8, 41.2, 42.5, 42.0, 43.9],
+                        borderColor: '#1e293b',
+                        backgroundColor: '#1e293b',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.3
+                    },
+                    {
+                        label: '중학생(%)',
+                        data: [34.5, 35.4, 37.7, 37.0, 38.7],
+                        borderColor: '#94a3b8',
+                        backgroundColor: '#94a3b8',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: commonOptions
+        });
+
+        // 4. 성별 + 학교급별 통합 분석 (Multiple Line Chart)
+        new Chart(document.getElementById('combinedChart'), {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [
+                    {
+                        label: '고교 여학생(%)',
+                        data: [46.5, 48.0, 50.1, 49.5, 51.2],
+                        borderColor: '#db2777',
+                        borderWidth: 3,
+                        pointStyle: 'rectRot',
+                        pointRadius: 5,
+                        tension: 0.2
+                    },
+                    {
+                        label: '중등 여학생(%)',
+                        data: [40.3, 41.0, 43.5, 42.9, 44.4],
+                        borderColor: '#f472b6',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        tension: 0.2
+                    },
+                    {
+                        label: '고교 남학생(%)',
+                        data: [33.1, 34.4, 34.9, 34.5, 36.6],
+                        borderColor: '#1d4ed8',
+                        borderWidth: 3,
+                        pointStyle: 'rectRot',
+                        pointRadius: 5,
+                        tension: 0.2
+                    },
+                    {
+                        label: '중등 남학생(%)',
+                        data: [28.7, 29.8, 31.9, 31.1, 33.0],
+                        borderColor: '#60a5fa',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        tension: 0.2
                     }
                 ]
             },
             options: {
                 ...commonOptions,
-                scales: {
-                    y: { beginAtZero: true, max: 60 }
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, padding: 15 }
+                    }
                 }
             }
         });
