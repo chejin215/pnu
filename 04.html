@@ -1,319 +1,278 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, 
-  PieChart, Pie, Cell 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
+  PieChart, Pie, Cell, AreaChart, Area
 } from 'recharts';
 import { 
-  Search, GraduationCap, MapPin, TrendingUp, Coins, 
-  Filter, ChevronDown, Info, ExternalLink
+  TrendingUp, Users, GraduationCap, Map, 
+  ArrowDownCircle, CheckCircle2, Coins, Building2,
+  PieChart as PieIcon, BarChart3, Target
 } from 'lucide-react';
 
 const App = () => {
-  // 제공된 CSV 데이터를 기반으로 한 샘플 데이터셋
-  const rawData = [
-    { id: 1, name: "건국대학교", type: "사립", region: "서울", competition: 16.2, students: 190, quota: 31, scholarship: 4246065, employment: 67.5, tuition: 9797979 },
-    { id: 2, name: "계명대학교", type: "사립", region: "대구", competition: 6.9, students: 165, quota: 40, scholarship: 3667299, employment: 71.9, tuition: 9095000 },
-    { id: 3, name: "국립공주대학교", type: "국립", region: "충남", competition: 7.6, students: 92, quota: 19, scholarship: 3010893, employment: 65.0, tuition: 4230000 },
-    { id: 41, name: "대구대학교 대학원", type: "사립", region: "경북", competition: 0, students: 2, quota: 0, scholarship: 3656100, employment: 0, tuition: 5484000 },
-    { id: 42, name: "부산대학교 대학원", type: "국립", region: "부산", competition: 0, students: 45, quota: 0, scholarship: 9004057, employment: 77.8, tuition: 3423000 },
-    { id: 43, name: "서울대학교 대학원", type: "국립", region: "서울", competition: 0, students: 94, quota: 0, scholarship: 6616612, employment: 88.6, tuition: 3828000 },
-    { id: 44, name: "선문대학교 대학원", type: "사립", region: "충남", competition: 0, students: 46, quota: 0, scholarship: 4476971, employment: 100, tuition: 5224986 },
-    { id: 45, name: "성균관대학교 대학원", type: "사립", region: "경기", competition: 0, students: 120, quota: 0, scholarship: 5500000, employment: 85.2, tuition: 11000000 },
+  // 데이터셋 (제공된 CSV 기반 정제)
+  const data = [
+    { name: "건국대", type: "사립", region: "서울", comp: 16.2, emp: 67.5, tuition: 979, scholarship: 424 },
+    { name: "계명대", type: "사립", region: "대구", comp: 6.9, emp: 71.9, tuition: 909, scholarship: 366 },
+    { name: "공주대", type: "국립", region: "충남", comp: 7.6, emp: 65.0, tuition: 423, scholarship: 301 },
+    { name: "서울대(원)", type: "국립", region: "서울", comp: 0, emp: 88.6, tuition: 382, scholarship: 661 },
+    { name: "성균관대(원)", type: "사립", region: "경기", comp: 0, emp: 85.2, tuition: 1100, scholarship: 550 },
+    { name: "부산대(원)", type: "국립", region: "부산", comp: 0, emp: 77.8, tuition: 342, scholarship: 900 },
+    { name: "선문대(원)", type: "사립", region: "충남", comp: 0, emp: 100, tuition: 522, scholarship: 447 },
   ];
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("전체");
+  const COLORS = ['#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE', '#2563EB', '#1D4ED8'];
 
-  // 핵심 지표 통계 계산
-  const stats = useMemo(() => {
-    const total = rawData.length;
-    const avgTuition = Math.round(rawData.reduce((acc, curr) => acc + curr.tuition, 0) / total);
-    const validEmp = rawData.filter(d => d.employment > 0);
-    const avgEmp = validEmp.length > 0 
-      ? (validEmp.reduce((acc, curr) => acc + curr.employment, 0) / validEmp.length).toFixed(1)
-      : 0;
-    const seoulCount = rawData.filter(d => d.region === "서울").length;
-    return { avgTuition, avgEmp, seoulCount, total };
-  }, [rawData]);
-
-  // 지역별 분포 데이터 가공
-  const regionData = useMemo(() => {
+  // 통계 가공
+  const regionStats = useMemo(() => {
     const counts = {};
-    rawData.forEach(d => {
-      counts[d.region] = (counts[d.region] || 0) + 1;
-    });
-    return Object.entries(counts)
-      .map(([name, value]) => ({ name, value }))
-      .sort((a, b) => b.value - a.value);
-  }, [rawData]);
+    data.forEach(d => counts[d.region] = (counts[d.region] || 0) + 1);
+    return Object.entries(counts).map(([name, value]) => ({ name, value }));
+  }, []);
 
-  // 설립유형별 평균 등록금 데이터 가공
-  const typeData = useMemo(() => {
-    const types = ["국립", "사립"];
-    return types.map(t => {
-      const filtered = rawData.filter(d => d.type === t);
-      const avg = filtered.length > 0 
-        ? filtered.reduce((acc, curr) => acc + curr.tuition, 0) / filtered.length
-        : 0;
-      return { name: t, average: Math.round(avg) };
-    });
-  }, [rawData]);
-
-  // 필터링 및 검색 로직
-  const filteredList = useMemo(() => {
-    return rawData.filter(item => {
-      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesType = filterType === "전체" || item.type === filterType;
-      return matchesSearch && matchesType;
-    });
-  }, [searchTerm, filterType]);
-
-  const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+  const avgTuition = Math.round(data.reduce((acc, cur) => acc + cur.tuition, 0) / data.length);
+  const avgEmp = (data.reduce((acc, cur) => acc + cur.emp, 0) / data.length).toFixed(1);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans text-gray-900">
-      {/* Header Section */}
-      <header className="max-w-7xl mx-auto mb-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-200 pb-8">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 bg-blue-600 rounded-xl text-white">
-                <GraduationCap size={28} />
-              </div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                산업공학과 종합 분석 대시보드
-              </h1>
-            </div>
-            <p className="text-gray-500 text-lg">국내 대학별 산업공학과 설치 현황 및 주요 교육 지표 통계</p>
+    <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900 scroll-smooth">
+      {/* 1. Hero Section */}
+      <section className="relative h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 text-white p-6 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+          </svg>
+        </div>
+        
+        <div className="relative z-10 text-center space-y-6 max-w-4xl">
+          <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-sm font-bold tracking-widest mb-4">
+            2025 INDUSTRIAL ENGINEERING REPORT
           </div>
-          <div className="flex gap-3">
-            <div className="bg-white border border-gray-200 rounded-2xl px-5 py-3 shadow-sm">
-              <span className="text-xs font-bold text-gray-400 uppercase block mb-1">Last Updated</span>
-              <span className="text-sm font-semibold text-gray-700">2025. 01. 13</span>
+          <h1 className="text-5xl md:text-7xl font-black leading-tight tracking-tighter">
+            산업공학, <br/>
+            <span className="text-blue-200 font-extrabold italic">데이터로 그리는 미래</span>
+          </h1>
+          <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+            효율성을 넘어 최적화로. 대한민국 산업공학과의 현재 주소와 주요 지표를 인포그래픽으로 한눈에 확인하세요.
+          </p>
+          <div className="pt-10 animate-bounce">
+            <ArrowDownCircle size={48} className="mx-auto text-white/50" />
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Key Highlights (The "Why") */}
+      <section className="max-w-6xl mx-auto py-24 px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="text-center space-y-4">
+          <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+            <TrendingUp size={36} />
+          </div>
+          <h3 className="text-4xl font-black text-blue-900">{avgEmp}%</h3>
+          <p className="text-slate-500 font-bold uppercase tracking-wider text-sm">평균 취업률</p>
+          <p className="text-slate-400 text-sm leading-relaxed">높은 실무 적합성을 바탕으로 <br/>다양한 산업군에서 활약 중입니다.</p>
+        </div>
+        <div className="text-center space-y-4">
+          <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+            <Coins size={36} />
+          </div>
+          <h3 className="text-4xl font-black text-emerald-900">{avgTuition}만</h3>
+          <p className="text-slate-500 font-bold uppercase tracking-wider text-sm">평균 연간 등록금</p>
+          <p className="text-slate-400 text-sm leading-relaxed">국공립과 사립대학 사이의 <br/>다양한 선택지를 제공합니다.</p>
+        </div>
+        <div className="text-center space-y-4">
+          <div className="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+            <Target size={36} />
+          </div>
+          <h3 className="text-4xl font-black text-indigo-900">16.2:1</h3>
+          <p className="text-slate-500 font-bold uppercase tracking-wider text-sm">최고 경쟁률</p>
+          <p className="text-slate-400 text-sm leading-relaxed">미래 산업의 핵심인 <br/>데이터 전문가를 향한 높은 관심입니다.</p>
+        </div>
+      </section>
+
+      {/* 3. Regional Distribution Section */}
+      <section className="bg-white py-24">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+          <div className="flex-1 space-y-6">
+            <div className="w-12 h-1.5 bg-blue-600 rounded-full"></div>
+            <h2 className="text-4xl font-black text-slate-900 leading-tight">
+              전국 어디에나, <br/>
+              <span className="text-blue-600">핵심 인재</span>가 있습니다.
+            </h2>
+            <p className="text-lg text-slate-600 leading-relaxed">
+              수도권에 집중된 인프라를 바탕으로 강원, 충남, 경북, 부산 등 전국 주요 거점 도시에 산업공학과가 고르게 분포되어 있습니다. 특히 제조 단지가 인접한 지역의 취업률이 눈에 띄게 높습니다.
+            </p>
+            <div className="grid grid-cols-2 gap-4 pt-4">
+              <div className="bg-slate-50 p-4 rounded-2xl">
+                <p className="text-xs text-slate-400 font-bold uppercase">수도권 집중도</p>
+                <p className="text-2xl font-black text-slate-800">High</p>
+              </div>
+              <div className="bg-slate-50 p-4 rounded-2xl">
+                <p className="text-xs text-slate-400 font-bold uppercase">거점 도시 분포</p>
+                <p className="text-2xl font-black text-slate-800">Balanced</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex-1 w-full h-[400px] relative">
+            <div className="absolute inset-0 bg-blue-50 rounded-full scale-90 blur-3xl opacity-50"></div>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={regionStats}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={80}
+                  outerRadius={120}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {regionStats.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+              <Map className="mx-auto text-blue-600 mb-1" size={32} />
+              <p className="text-xs font-bold text-slate-400">REGIONS</p>
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      <main className="max-w-7xl mx-auto space-y-10">
-        {/* Key Statistics Summary */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { label: "총 분석 대상", value: `${stats.total}개 기관`, icon: <Search className="text-blue-500" />, color: "bg-blue-50" },
-            { label: "평균 연간 등록금", value: `₩${stats.avgTuition.toLocaleString()}`, icon: <Coins className="text-emerald-500" />, color: "bg-emerald-50" },
-            { label: "평균 취업률", value: `${stats.avgEmp}%`, icon: <TrendingUp className="text-orange-500" />, color: "bg-orange-50" },
-            { label: "수도권 학과수", value: `${stats.seoulCount}개`, icon: <MapPin className="text-purple-500" />, color: "bg-purple-50" },
-          ].map((stat, i) => (
-            <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
-              <div className={`w-12 h-12 ${stat.color} rounded-2xl flex items-center justify-center mb-4`}>
-                {stat.icon}
-              </div>
-              <p className="text-sm font-medium text-gray-500 mb-1">{stat.label}</p>
-              <h3 className="text-2xl font-bold text-gray-900">{stat.value}</h3>
-            </div>
-          ))}
-        </section>
-
-        {/* Visual Analytics Row */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Regional Distribution Chart */}
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <MapPin size={22} className="text-blue-600" />
-                지역별 학과 분포
-              </h2>
-              <span className="text-xs font-medium text-gray-400">단위: 개교</span>
-            </div>
-            <div className="h-[320px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={regionData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={70}
-                    outerRadius={100}
-                    paddingAngle={8}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {regionData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  />
-                  <Legend verticalAlign="bottom" height={36}/>
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+      {/* 4. Financial Insight Section */}
+      <section className="bg-slate-900 py-24 text-white overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-4xl font-black">교육의 가치와 투자</h2>
+            <p className="text-slate-400 max-w-xl mx-auto">국공립 대학의 효율성과 사립 대학의 집중 투자를 비교해 보세요.</p>
           </div>
-
-          {/* Tuition Comparison Chart */}
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <Coins size={22} className="text-emerald-600" />
-                설립유형별 평균 등록금
-              </h2>
-              <span className="text-xs font-medium text-gray-400">단위: 원(KRW)</span>
-            </div>
-            <div className="h-[320px] w-full">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="h-[400px] bg-slate-800/50 p-6 rounded-3xl border border-white/5">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={typeData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} tickFormatter={(val) => `${val/10000}만`} />
+                <BarChart data={data} layout="vertical" margin={{ left: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#334155" />
+                  <XAxis type="number" hide />
+                  <YAxis dataKey="name" type="category" stroke="#94A3B8" fontSize={12} width={80} />
                   <Tooltip 
-                    cursor={{fill: '#f8fafc'}}
-                    formatter={(val) => [`${val.toLocaleString()}원`, '평균 등록금']}
-                    contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                    contentStyle={{ backgroundColor: '#1E293B', border: 'none', borderRadius: '12px' }}
+                    itemStyle={{ color: '#F8FAFC' }}
                   />
-                  <Bar dataKey="average" fill="#10b981" radius={[10, 10, 0, 0]} barSize={80} />
+                  <Bar dataKey="tuition" fill="#60A5FA" radius={[0, 10, 10, 0]} name="연간 등록금(만원)" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
-        </section>
-
-        {/* Detailed Data Table Section */}
-        <section className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-8 border-b border-gray-50 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div>
-              <h2 className="text-xl font-bold mb-1">대학별 상세 지표 데이터</h2>
-              <p className="text-sm text-gray-400">학과별 경쟁률, 취업률 및 재정 지표를 검색할 수 있습니다.</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
-              <div className="relative flex-grow md:w-72">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input 
-                  type="text" 
-                  placeholder="대학명을 입력하세요..."
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-blue-500 transition-all"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div className="flex items-center gap-2 bg-gray-50 p-1.5 rounded-2xl">
-                {["전체", "국립", "사립"].map(type => (
-                  <button
-                    key={type}
-                    onClick={() => setFilterType(type)}
-                    className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                      filterType === type 
-                        ? "bg-white text-blue-600 shadow-sm" 
-                        : "text-gray-400 hover:text-gray-600"
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
+            
+            <div className="space-y-8">
+              {[
+                { title: "국공립의 강점", desc: "평균 300~400만 원대의 등록금으로 최상의 교육을 제공합니다.", icon: <Building2 className="text-blue-400" /> },
+                { title: "사립대의 장학금", desc: "높은 등록금만큼 1인당 장학금 혜택도 공격적으로 지원됩니다.", icon: <Coins className="text-emerald-400" /> },
+                { title: "연구 인프라", desc: "상위권 대학원의 경우 장학금과 취업 연계 프로그램이 탁월합니다.", icon: <GraduationCap className="text-indigo-400" /> }
+              ].map((item, idx) => (
+                <div key={idx} className="flex gap-6 items-start">
+                  <div className="p-4 bg-white/5 rounded-2xl">{item.icon}</div>
+                  <div>
+                    <h4 className="text-xl font-bold mb-2">{item.title}</h4>
+                    <p className="text-slate-400 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="overflow-x-auto">
+      {/* 5. Career & Result Table */}
+      <section className="py-24 bg-[#F8FAFC]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div className="space-y-4">
+              <div className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-black rounded-md inline-block">OUTCOMES</div>
+              <h2 className="text-4xl font-black text-slate-900">숫자로 보는 졸업생의 성과</h2>
+            </div>
+            <p className="text-slate-500 max-w-sm text-sm">주요 대학들의 경쟁률과 취업률 데이터를 직접 비교해보세요.</p>
+          </div>
+
+          <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-gray-50/50 text-gray-400 text-xs font-bold uppercase tracking-wider">
-                  <th className="px-8 py-5">기관/대학명</th>
-                  <th className="px-6 py-5">지역</th>
-                  <th className="px-6 py-5">설립유형</th>
-                  <th className="px-6 py-5 text-center">경쟁률</th>
-                  <th className="px-6 py-5">취업 성과</th>
-                  <th className="px-8 py-5 text-right">평균 등록금</th>
+                <tr className="bg-slate-50/50 border-b border-slate-100">
+                  <th className="px-8 py-6 text-xs font-black text-slate-400 uppercase tracking-widest">Institution</th>
+                  <th className="px-6 py-6 text-xs font-black text-slate-400 uppercase tracking-widest">Competition</th>
+                  <th className="px-6 py-6 text-xs font-black text-slate-400 uppercase tracking-widest text-center">Employment</th>
+                  <th className="px-8 py-6 text-xs font-black text-slate-400 uppercase tracking-widest text-right">Tuition</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
-                {filteredList.map((item) => (
-                  <tr key={item.id} className="hover:bg-blue-50/30 transition-colors group">
-                    <td className="px-8 py-6 font-bold text-gray-800 flex items-center gap-2">
-                      {item.name}
-                      {item.name.includes("대학원") && (
-                        <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded leading-none">GRAD</span>
-                      )}
-                    </td>
-                    <td className="px-6 py-6 text-sm text-gray-600">{item.region}</td>
-                    <td className="px-6 py-6">
-                      <span className={`px-3 py-1 rounded-full text-[11px] font-bold ${
-                        item.type === '국립' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'
-                      }`}>
-                        {item.type}
-                      </span>
-                    </td>
-                    <td className="px-6 py-6 text-center font-mono font-medium">
-                      {item.competition > 0 ? `${item.competition}:1` : <span className="text-gray-300">-</span>}
+              <tbody className="divide-y divide-slate-100">
+                {data.map((univ, i) => (
+                  <tr key={i} className="hover:bg-blue-50/40 transition-colors group">
+                    <td className="px-8 py-6">
+                      <p className="font-black text-slate-800 text-lg group-hover:text-blue-700 transition-colors">{univ.name}</p>
+                      <p className="text-xs text-slate-400 font-bold">{univ.region} · {univ.type}</p>
                     </td>
                     <td className="px-6 py-6">
-                      <div className="flex items-center gap-3">
-                        <div className="flex-grow max-w-[100px] h-2 bg-gray-100 rounded-full overflow-hidden">
-                          <div 
-                            className={`h-full transition-all duration-1000 ${
-                              item.employment >= 80 ? 'bg-emerald-500' : 'bg-blue-500'
-                            }`}
-                            style={{ width: `${item.employment}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-xs font-bold text-gray-700">{item.employment}%</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+                        <span className="font-mono font-bold text-slate-600">{univ.comp > 0 ? `${univ.comp}:1` : '-'}</span>
                       </div>
                     </td>
-                    <td className="px-8 py-6 text-right font-mono font-bold text-gray-600">
-                      ₩{item.tuition.toLocaleString()}
+                    <td className="px-6 py-6">
+                      <div className="flex flex-col items-center gap-1.5">
+                        <div className="w-full max-w-[120px] h-3 bg-slate-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transition-all duration-1000 ease-out"
+                            style={{ width: `${univ.emp}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-xs font-black text-slate-700">{univ.emp}%</span>
+                      </div>
+                    </td>
+                    <td className="px-8 py-6 text-right">
+                      <span className="font-mono text-lg font-black text-slate-500 tracking-tighter">₩{univ.tuition.toLocaleString()}만</span>
                     </td>
                   </tr>
                 ))}
-                {filteredList.length === 0 && (
-                  <tr>
-                    <td colSpan="6" className="px-8 py-20 text-center">
-                      <div className="flex flex-col items-center gap-2 text-gray-400">
-                        <Info size={40} className="opacity-20" />
-                        <p className="text-lg">일치하는 대학 데이터가 없습니다.</p>
-                        <button 
-                          onClick={() => {setSearchTerm(""); setFilterType("전체");}}
-                          className="text-blue-500 font-bold hover:underline mt-2"
-                        >
-                          검색 조건 초기화
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Action Banner */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[2rem] p-10 text-white shadow-xl shadow-blue-200 relative overflow-hidden group">
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="text-center lg:text-left">
-              <h2 className="text-3xl font-black mb-3 italic">READY TO OPTIMIZE?</h2>
-              <p className="text-blue-100 text-lg max-w-2xl font-medium">
-                산업공학은 데이터를 통해 세상을 효율적으로 바꿉니다. <br className="hidden md:block"/>
-                상세 분석 보고서의 전문을 확인하고 진로 및 연구 방향을 설정해 보세요.
-              </p>
+      {/* 6. Call to Action / Final Message */}
+      <section className="py-32 px-6">
+        <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[3rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-blue-200">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          
+          <div className="relative z-10 space-y-8">
+            <h2 className="text-4xl md:text-5xl font-black leading-tight">
+              당신의 성장을 <br/>
+              <span className="underline decoration-blue-300 decoration-8 underline-offset-8">산업공학</span>으로 시작하세요.
+            </h2>
+            <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto font-medium">
+              우리는 더 나은 시스템을 설계하고, 더 빠른 의사결정을 도우며, <br className="hidden md:block"/>
+              데이터로 세상을 더 효율적으로 만듭니다.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
+              <button className="px-10 py-5 bg-white text-blue-600 rounded-2xl font-black text-lg hover:scale-105 transition-transform shadow-xl">
+                전체 분석 자료 받기
+              </button>
+              <button className="px-10 py-5 bg-blue-500/30 backdrop-blur-md border border-white/20 text-white rounded-2xl font-black text-lg hover:bg-white/10 transition-all">
+                상담 문의하기
+              </button>
             </div>
-            <button className="px-8 py-4 bg-white text-blue-600 rounded-2xl font-black text-lg hover:bg-blue-50 hover:-translate-y-1 transition-all shadow-xl flex items-center gap-2">
-              상세 보고서 PDF 다운로드
-              <ExternalLink size={20} />
-            </button>
           </div>
-          {/* Animated Background Orbs */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-500"></div>
-          <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-blue-400/20 rounded-full blur-2xl"></div>
         </div>
-      </main>
+      </section>
 
-      <footer className="max-w-7xl mx-auto mt-16 pb-12 text-center">
-        <div className="inline-flex items-center gap-2 text-gray-400 mb-4">
-          <GraduationCap size={16} />
-          <span className="text-xs font-bold uppercase tracking-widest">Industrial Engineering Insight Center</span>
+      {/* Footer */}
+      <footer className="py-12 px-6 border-t border-slate-200 text-center space-y-4">
+        <div className="flex justify-center items-center gap-2 text-slate-800 font-black tracking-tighter text-xl">
+          <GraduationCap className="text-blue-600" />
+          <span>INDUSTRIAL INSIGHT</span>
         </div>
-        <p className="text-xs text-gray-400">
-          본 대시보드는 2025년 기준 대학별 공시 데이터를 바탕으로 제작되었습니다.<br/>
-          데이터의 무단 전재 및 재배포를 금합니다.
+        <p className="text-slate-400 text-sm font-medium">
+          © 2025 산업공학과 데이터 인포그래픽 프로젝트. All rights reserved. <br/>
+          데이터 출처: 교육부 대학알리미 및 실시간 입시 데이터셋
         </p>
       </footer>
     </div>
