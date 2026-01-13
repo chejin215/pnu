@@ -1,282 +1,294 @@
-import React, { useMemo } from 'react';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  PieChart, Pie, Cell, AreaChart, Area
-} from 'recharts';
-import { 
-  TrendingUp, Users, GraduationCap, Map, 
-  ArrowDownCircle, CheckCircle2, Coins, Building2,
-  PieChart as PieIcon, BarChart3, Target
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산업공학과 인포그래픽 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
+        .gradient-hero { background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #4338ca 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+        .chart-container { position: relative; height: 350px; width: 100%; }
+        @keyframes bounce-slow { 0%, 100% { transform: translateY(-5%); } 50% { transform: translateY(0); } }
+        .animate-bounce-slow { animation: bounce-slow 2s infinite; }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-900">
 
-const App = () => {
-  // 데이터셋 (제공된 CSV 기반 정제)
-  const data = [
-    { name: "건국대", type: "사립", region: "서울", comp: 16.2, emp: 67.5, tuition: 979, scholarship: 424 },
-    { name: "계명대", type: "사립", region: "대구", comp: 6.9, emp: 71.9, tuition: 909, scholarship: 366 },
-    { name: "공주대", type: "국립", region: "충남", comp: 7.6, emp: 65.0, tuition: 423, scholarship: 301 },
-    { name: "서울대(원)", type: "국립", region: "서울", comp: 0, emp: 88.6, tuition: 382, scholarship: 661 },
-    { name: "성균관대(원)", type: "사립", region: "경기", comp: 0, emp: 85.2, tuition: 1100, scholarship: 550 },
-    { name: "부산대(원)", type: "국립", region: "부산", comp: 0, emp: 77.8, tuition: 342, scholarship: 900 },
-    { name: "선문대(원)", type: "사립", region: "충남", comp: 0, emp: 100, tuition: 522, scholarship: 447 },
-  ];
-
-  const COLORS = ['#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE', '#2563EB', '#1D4ED8'];
-
-  // 통계 가공
-  const regionStats = useMemo(() => {
-    const counts = {};
-    data.forEach(d => counts[d.region] = (counts[d.region] || 0) + 1);
-    return Object.entries(counts).map(([name, value]) => ({ name, value }));
-  }, []);
-
-  const avgTuition = Math.round(data.reduce((acc, cur) => acc + cur.tuition, 0) / data.length);
-  const avgEmp = (data.reduce((acc, cur) => acc + cur.emp, 0) / data.length).toFixed(1);
-
-  return (
-    <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900 scroll-smooth">
-      {/* 1. Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 text-white p-6 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
-          </svg>
+    <!-- 1. Hero Section -->
+    <section class="relative h-screen flex flex-col items-center justify-center gradient-hero text-white p-6 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+            </svg>
         </div>
         
-        <div className="relative z-10 text-center space-y-6 max-w-4xl">
-          <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-sm font-bold tracking-widest mb-4">
-            2025 INDUSTRIAL ENGINEERING REPORT
-          </div>
-          <h1 className="text-5xl md:text-7xl font-black leading-tight tracking-tighter">
-            산업공학, <br/>
-            <span className="text-blue-200 font-extrabold italic">데이터로 그리는 미래</span>
-          </h1>
-          <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-            효율성을 넘어 최적화로. 대한민국 산업공학과의 현재 주소와 주요 지표를 인포그래픽으로 한눈에 확인하세요.
-          </p>
-          <div className="pt-10 animate-bounce">
-            <ArrowDownCircle size={48} className="mx-auto text-white/50" />
-          </div>
-        </div>
-      </section>
-
-      {/* 2. Key Highlights (The "Why") */}
-      <section className="max-w-6xl mx-auto py-24 px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="text-center space-y-4">
-          <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
-            <TrendingUp size={36} />
-          </div>
-          <h3 className="text-4xl font-black text-blue-900">{avgEmp}%</h3>
-          <p className="text-slate-500 font-bold uppercase tracking-wider text-sm">평균 취업률</p>
-          <p className="text-slate-400 text-sm leading-relaxed">높은 실무 적합성을 바탕으로 <br/>다양한 산업군에서 활약 중입니다.</p>
-        </div>
-        <div className="text-center space-y-4">
-          <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
-            <Coins size={36} />
-          </div>
-          <h3 className="text-4xl font-black text-emerald-900">{avgTuition}만</h3>
-          <p className="text-slate-500 font-bold uppercase tracking-wider text-sm">평균 연간 등록금</p>
-          <p className="text-slate-400 text-sm leading-relaxed">국공립과 사립대학 사이의 <br/>다양한 선택지를 제공합니다.</p>
-        </div>
-        <div className="text-center space-y-4">
-          <div className="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
-            <Target size={36} />
-          </div>
-          <h3 className="text-4xl font-black text-indigo-900">16.2:1</h3>
-          <p className="text-slate-500 font-bold uppercase tracking-wider text-sm">최고 경쟁률</p>
-          <p className="text-slate-400 text-sm leading-relaxed">미래 산업의 핵심인 <br/>데이터 전문가를 향한 높은 관심입니다.</p>
-        </div>
-      </section>
-
-      {/* 3. Regional Distribution Section */}
-      <section className="bg-white py-24">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
-          <div className="flex-1 space-y-6">
-            <div className="w-12 h-1.5 bg-blue-600 rounded-full"></div>
-            <h2 className="text-4xl font-black text-slate-900 leading-tight">
-              전국 어디에나, <br/>
-              <span className="text-blue-600">핵심 인재</span>가 있습니다.
-            </h2>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              수도권에 집중된 인프라를 바탕으로 강원, 충남, 경북, 부산 등 전국 주요 거점 도시에 산업공학과가 고르게 분포되어 있습니다. 특히 제조 단지가 인접한 지역의 취업률이 눈에 띄게 높습니다.
+        <div class="relative z-10 text-center space-y-6 max-w-4xl">
+            <div class="inline-block px-4 py-1.5 bg-white/20 rounded-full text-sm font-bold tracking-widest mb-4">
+                2025 INDUSTRIAL ENGINEERING REPORT
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tighter">
+                산업공학, <br/>
+                <span class="text-blue-200 italic">데이터로 그리는 미래</span>
+            </h1>
+            <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+                효율성을 넘어 최적화로. 대한민국 산업공학과의 현재 주소와 주요 지표를 인포그래픽으로 한눈에 확인하세요.
             </p>
-            <div className="grid grid-cols-2 gap-4 pt-4">
-              <div className="bg-slate-50 p-4 rounded-2xl">
-                <p className="text-xs text-slate-400 font-bold uppercase">수도권 집중도</p>
-                <p className="text-2xl font-black text-slate-800">High</p>
-              </div>
-              <div className="bg-slate-50 p-4 rounded-2xl">
-                <p className="text-xs text-slate-400 font-bold uppercase">거점 도시 분포</p>
-                <p className="text-2xl font-black text-slate-800">Balanced</p>
-              </div>
+            <div class="pt-10 animate-bounce-slow flex justify-center">
+                <a href="#highlights">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/50"><circle cx="12" cy="12" r="10"/><path d="m16 10-4 4-4-4"/></svg>
+                </a>
             </div>
-          </div>
-          <div className="flex-1 w-full h-[400px] relative">
-            <div className="absolute inset-0 bg-blue-50 rounded-full scale-90 blur-3xl opacity-50"></div>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={regionStats}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={80}
-                  outerRadius={120}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {regionStats.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-              <Map className="mx-auto text-blue-600 mb-1" size={32} />
-              <p className="text-xs font-bold text-slate-400">REGIONS</p>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      {/* 4. Financial Insight Section */}
-      <section className="bg-slate-900 py-24 text-white overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-black">교육의 가치와 투자</h2>
-            <p className="text-slate-400 max-w-xl mx-auto">국공립 대학의 효율성과 사립 대학의 집중 투자를 비교해 보세요.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="h-[400px] bg-slate-800/50 p-6 rounded-3xl border border-white/5">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data} layout="vertical" margin={{ left: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#334155" />
-                  <XAxis type="number" hide />
-                  <YAxis dataKey="name" type="category" stroke="#94A3B8" fontSize={12} width={80} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1E293B', border: 'none', borderRadius: '12px' }}
-                    itemStyle={{ color: '#F8FAFC' }}
-                  />
-                  <Bar dataKey="tuition" fill="#60A5FA" radius={[0, 10, 10, 0]} name="연간 등록금(만원)" />
-                </BarChart>
-              </ResponsiveContainer>
+    <!-- 2. Key Highlights -->
+    <section id="highlights" class="max-w-6xl mx-auto py-24 px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="text-center space-y-4">
+            <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+            <h3 class="text-4xl font-black text-blue-900">82.3%</h3>
+            <p class="text-slate-500 font-bold uppercase tracking-wider text-sm">평균 취업률</p>
+            <p class="text-slate-400 text-sm leading-relaxed">데이터 기반 실무 역량으로<br/>압도적인 취업 성과를 보입니다.</p>
+        </div>
+        <div class="text-center space-y-4">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18.06"/><path d="M7 11h8"/><path d="M11 7v8"/></svg>
+            </div>
+            <h3 class="text-4xl font-black text-emerald-900">662만</h3>
+            <p class="text-slate-500 font-bold uppercase tracking-wider text-sm">평균 연간 등록금</p>
+            <p class="text-slate-400 text-sm leading-relaxed">국공립과 사립대학 사이의<br/>폭넓은 교육 환경을 제공합니다.</p>
+        </div>
+        <div class="text-center space-y-4">
+            <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <h3 class="text-4xl font-black text-indigo-900">16.2:1</h3>
+            <p class="text-slate-500 font-bold uppercase tracking-wider text-sm">최고 경쟁률</p>
+            <p class="text-slate-400 text-sm leading-relaxed">최적화 전문가를 꿈꾸는<br/>학생들의 뜨거운 열기입니다.</p>
+        </div>
+    </section>
+
+    <!-- 3. Regional Distribution -->
+    <section class="bg-white py-24">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+            <div class="flex-1 space-y-6">
+                <div class="w-12 h-1.5 bg-blue-600 rounded-full"></div>
+                <h2 class="text-4xl font-black text-slate-900 leading-tight">
+                    전국 어디에나, <br/>
+                    <span class="text-blue-600">핵심 인재</span>가 있습니다.
+                </h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    수도권(서울/경기)의 높은 인프라 밀집도와 더불어 충남, 부산, 대구 등 거점 지역별로 고르게 학과가 설치되어 산업 현장의 효율화를 이끌고 있습니다.
+                </p>
+                <div class="grid grid-cols-2 gap-4 pt-4">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase">거점 지역 분포</p>
+                        <p class="text-2xl font-black text-slate-800">전국 17개소+</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase">지역 연계성</p>
+                        <p class="text-2xl font-black text-slate-800">최적화</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 w-full relative">
+                <div class="chart-container">
+                    <canvas id="regionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Financial Insight -->
+    <section class="bg-slate-900 py-24 text-white overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center space-y-4 mb-16">
+                <h2 class="text-4xl font-black">교육 가치와 경제적 투자</h2>
+                <p class="text-slate-400 max-w-xl mx-auto">대학별 등록금 규모를 통해 교육 투자 대비 성과를 분석해 보세요.</p>
             </div>
             
-            <div className="space-y-8">
-              {[
-                { title: "국공립의 강점", desc: "평균 300~400만 원대의 등록금으로 최상의 교육을 제공합니다.", icon: <Building2 className="text-blue-400" /> },
-                { title: "사립대의 장학금", desc: "높은 등록금만큼 1인당 장학금 혜택도 공격적으로 지원됩니다.", icon: <Coins className="text-emerald-400" /> },
-                { title: "연구 인프라", desc: "상위권 대학원의 경우 장학금과 취업 연계 프로그램이 탁월합니다.", icon: <GraduationCap className="text-indigo-400" /> }
-              ].map((item, idx) => (
-                <div key={idx} className="flex gap-6 items-start">
-                  <div className="p-4 bg-white/5 rounded-2xl">{item.icon}</div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">{item.title}</h4>
-                    <p className="text-slate-400 leading-relaxed">{item.desc}</p>
-                  </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="bg-slate-800/50 p-8 rounded-3xl border border-white/5">
+                    <div class="chart-container">
+                        <canvas id="tuitionChart"></canvas>
+                    </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Career & Result Table */}
-      <section className="py-24 bg-[#F8FAFC]">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div className="space-y-4">
-              <div className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-black rounded-md inline-block">OUTCOMES</div>
-              <h2 className="text-4xl font-black text-slate-900">숫자로 보는 졸업생의 성과</h2>
-            </div>
-            <p className="text-slate-500 max-w-sm text-sm">주요 대학들의 경쟁률과 취업률 데이터를 직접 비교해보세요.</p>
-          </div>
-
-          <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 overflow-hidden border border-slate-100">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="px-8 py-6 text-xs font-black text-slate-400 uppercase tracking-widest">Institution</th>
-                  <th className="px-6 py-6 text-xs font-black text-slate-400 uppercase tracking-widest">Competition</th>
-                  <th className="px-6 py-6 text-xs font-black text-slate-400 uppercase tracking-widest text-center">Employment</th>
-                  <th className="px-8 py-6 text-xs font-black text-slate-400 uppercase tracking-widest text-right">Tuition</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {data.map((univ, i) => (
-                  <tr key={i} className="hover:bg-blue-50/40 transition-colors group">
-                    <td className="px-8 py-6">
-                      <p className="font-black text-slate-800 text-lg group-hover:text-blue-700 transition-colors">{univ.name}</p>
-                      <p className="text-xs text-slate-400 font-bold">{univ.region} · {univ.type}</p>
-                    </td>
-                    <td className="px-6 py-6">
-                      <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                        <span className="font-mono font-bold text-slate-600">{univ.comp > 0 ? `${univ.comp}:1` : '-'}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-6">
-                      <div className="flex flex-col items-center gap-1.5">
-                        <div className="w-full max-w-[120px] h-3 bg-slate-100 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transition-all duration-1000 ease-out"
-                            style={{ width: `${univ.emp}%` }}
-                          ></div>
+                
+                <div class="space-y-8">
+                    <div class="flex gap-6 items-start">
+                        <div class="p-4 bg-blue-600/20 rounded-2xl text-blue-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 2v2"/><path d="M12 2v2"/><path d="M16 2v2"/></svg>
                         </div>
-                        <span className="text-xs font-black text-slate-700">{univ.emp}%</span>
-                      </div>
-                    </td>
-                    <td className="px-8 py-6 text-right">
-                      <span className="font-mono text-lg font-black text-slate-500 tracking-tighter">₩{univ.tuition.toLocaleString()}만</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Call to Action / Final Message */}
-      <section className="py-32 px-6">
-        <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[3rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-blue-200">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-          
-          <div className="relative z-10 space-y-8">
-            <h2 className="text-4xl md:text-5xl font-black leading-tight">
-              당신의 성장을 <br/>
-              <span className="underline decoration-blue-300 decoration-8 underline-offset-8">산업공학</span>으로 시작하세요.
-            </h2>
-            <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto font-medium">
-              우리는 더 나은 시스템을 설계하고, 더 빠른 의사결정을 도우며, <br className="hidden md:block"/>
-              데이터로 세상을 더 효율적으로 만듭니다.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <button className="px-10 py-5 bg-white text-blue-600 rounded-2xl font-black text-lg hover:scale-105 transition-transform shadow-xl">
-                전체 분석 자료 받기
-              </button>
-              <button className="px-10 py-5 bg-blue-500/30 backdrop-blur-md border border-white/20 text-white rounded-2xl font-black text-lg hover:bg-white/10 transition-all">
-                상담 문의하기
-              </button>
+                        <div>
+                            <h4 class="text-xl font-bold mb-2">국공립의 효율성</h4>
+                            <p class="text-slate-400 leading-relaxed">연간 300~400만 원대의 경쟁력 있는 등록금으로 고도화된 전공 지식을 습득합니다.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start">
+                        <div class="p-4 bg-emerald-600/20 rounded-2xl text-emerald-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold mb-2">사립대의 과감한 지원</h4>
+                            <p class="text-slate-400 leading-relaxed">높은 등록금만큼 1인당 장학금 지원액이 크며 최신 연구 인프라를 제공합니다.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-slate-200 text-center space-y-4">
-        <div className="flex justify-center items-center gap-2 text-slate-800 font-black tracking-tighter text-xl">
-          <GraduationCap className="text-blue-600" />
-          <span>INDUSTRIAL INSIGHT</span>
+    <!-- 5. Outcome Table -->
+    <section class="py-24 bg-[#F8FAFC]">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div class="space-y-4">
+                    <div class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-black rounded-md inline-block uppercase">Data Comparison</div>
+                    <h2 class="text-4xl font-black text-slate-900">대학별 성과 상세 지표</h2>
+                </div>
+                <p class="text-slate-500 max-w-sm text-sm">각 대학의 경쟁률, 취업률, 등록금 데이터를 한눈에 대조할 수 있습니다.</p>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] shadow-xl overflow-hidden border border-slate-100 overflow-x-auto">
+                <table class="w-full text-left min-w-[700px]">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100">
+                            <th class="px-8 py-6 text-xs font-black text-slate-400 uppercase">기관명</th>
+                            <th class="px-6 py-6 text-xs font-black text-slate-400 uppercase text-center">경쟁률</th>
+                            <th class="px-6 py-6 text-xs font-black text-slate-400 uppercase text-center">취업률 (%)</th>
+                            <th class="px-8 py-6 text-xs font-black text-slate-400 uppercase text-right">등록금 (만원)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" id="dataTableBody">
+                        <!-- JS로 데이터 삽입 -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <p className="text-slate-400 text-sm font-medium">
-          © 2025 산업공학과 데이터 인포그래픽 프로젝트. All rights reserved. <br/>
-          데이터 출처: 교육부 대학알리미 및 실시간 입시 데이터셋
-        </p>
-      </footer>
-    </div>
-  );
-};
+    </section>
 
-export default App;
+    <!-- 6. Footer Call to Action -->
+    <section class="py-32 px-6">
+        <div class="max-w-5xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[3rem] p-12 md:p-20 text-center text-white shadow-2xl relative overflow-hidden">
+            <div class="relative z-10 space-y-8">
+                <h2 class="text-4xl md:text-5xl font-black leading-tight">
+                    당신의 성장을 <br/>
+                    <span class="underline underline-offset-8 decoration-blue-300">산업공학</span>과 함께하세요.
+                </h2>
+                <p class="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto">
+                    우리는 데이터로 세상을 해석하고,<br/> 가장 효율적인 해답을 찾는 전문가를 양성합니다.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="px-10 py-5 bg-white text-blue-600 rounded-2xl font-black text-lg hover:bg-blue-50 transition-colors shadow-lg">상세 보고서 받기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-slate-400 text-sm border-t border-slate-200">
+        <div class="font-black text-slate-800 text-xl mb-4 flex justify-center items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            INDUSTRIAL INSIGHT
+        </div>
+        <p>© 2025 산업공학 인포그래픽 데이터 시각화 리포트. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 데이터셋
+        const univData = [
+            { name: "건국대", type: "사립", region: "서울", comp: 16.2, emp: 67.5, tuition: 979 },
+            { name: "계명대", type: "사립", region: "대구", comp: 6.9, emp: 71.9, tuition: 909 },
+            { name: "공주대", type: "국립", region: "충남", comp: 7.6, emp: 65.0, tuition: 423 },
+            { name: "서울대(원)", type: "국립", region: "서울", comp: 0, emp: 88.6, tuition: 382 },
+            { name: "성균관대(원)", type: "사립", region: "경기", comp: 0, emp: 85.2, tuition: 1100 },
+            { name: "부산대(원)", type: "국립", region: "부산", comp: 0, emp: 77.8, tuition: 342 },
+            { name: "선문대(원)", type: "사립", region: "충남", comp: 0, emp: 100, tuition: 522 }
+        ];
+
+        // 1. 지역별 분포 차트 (Pie)
+        const regionCtx = document.getElementById('regionChart').getContext('2d');
+        const regions = {};
+        univData.forEach(d => regions[d.region] = (regions[d.region] || 0) + 1);
+        
+        new Chart(regionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(regions),
+                datasets: [{
+                    data: Object.values(regions),
+                    backgroundColor: ['#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE', '#1D4ED8'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { weight: 'bold' } } }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // 2. 대학별 등록금 차트 (Horizontal Bar)
+        const tuitionCtx = document.getElementById('tuitionChart').getContext('2d');
+        new Chart(tuitionCtx, {
+            type: 'bar',
+            data: {
+                labels: univData.map(d => d.name),
+                datasets: [{
+                    label: '연간 등록금 (만원)',
+                    data: univData.map(d => d.tuition),
+                    backgroundColor: '#60A5FA',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { display: false },
+                    y: { grid: { display: false }, ticks: { color: '#94A3B8' } }
+                }
+            }
+        });
+
+        // 3. 성과 테이블 렌더링
+        const tableBody = document.getElementById('dataTableBody');
+        univData.forEach(univ => {
+            const row = `
+                <tr class="hover:bg-blue-50/50 transition-colors group">
+                    <td class="px-8 py-6">
+                        <div class="font-black text-slate-800 text-lg group-hover:text-blue-600 transition-colors">${univ.name}</div>
+                        <div class="text-xs text-slate-400 font-bold">${univ.region} · ${univ.type}</div>
+                    </td>
+                    <td class="px-6 py-6 text-center font-mono font-bold text-slate-600">
+                        ${univ.comp > 0 ? uㅁniv.comp + ':1' : '-'}
+                    </td>
+                    <td class="px-6 py-6">
+                        <div class="flex flex-col items-center gap-1.5">
+                            <div class="w-32 h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-blue-600 rounded-full" style="width: ${univ.emp}%"></div>
+                            </div>
+                            <span class="text-xs font-black text-slate-700">${univ.emp}%</span>
+                        </div>
+                    </td>
+                    <td class="px-8 py-6 text-right font-mono text-lg font-black text-slate-500">
+                        ₩${univ.tuition.toLocaleString()}
+                    </td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
+        });
+    </script>
+</body>
+</html>
