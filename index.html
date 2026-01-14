@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빅데이터 분석 포트폴리오</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lavender: {
+                            50: '#fcfaff',
+                            100: '#f6f0fe',
+                            200: '#efe6fd',
+                            300: '#e0ccfa',
+                            400: '#cba0f5',
+                            500: '#b06ced',
+                            600: '#9644df',
+                            700: '#7e2ecc',
+                            800: '#6b26ab',
+                            900: '#581f8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white z-50 border-b border-gray-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="font-bold text-xl text-gray-800 tracking-tight">Data Portfolio</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-lavender-700 font-medium transition-colors">홈</a>
+                    <a href="#about" class="text-gray-600 hover:text-lavender-700 font-medium transition-colors">소개</a>
+                    <a href="#projects" class="text-gray-600 hover:text-lavender-700 font-medium transition-colors">프로젝트</a>
+                    <a href="#contact" class="text-gray-600 hover:text-lavender-700 font-medium transition-colors">연락처</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 bg-white border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="inline-block py-1 px-3 rounded bg-lavender-100 text-lavender-800 text-sm font-semibold mb-4">빅데이터 분석 교과목 이수</span>
+                <h1 class="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+                    데이터 기반의 문제 해결과<br>인사이트 도출
+                </h1>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    사회 현상부터 산업 데이터까지, 객관적인 데이터 분석을 통해<br> 
+                    현상을 진단하고 합리적인 대안을 제시합니다.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <a href="#projects" class="px-6 py-3 bg-lavender-700 text-white font-medium rounded hover:bg-lavender-800 transition-colors">
+                        프로젝트 보기
+                    </a>
+                    <a href="#about" class="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded hover:bg-gray-50 transition-colors">
+                        역량 소개
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-gray-900">보유 역량</h2>
+                <p class="mt-2 text-gray-600">데이터 분석을 위한 기술 스택 및 활용 능력입니다.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Skill 1 -->
+                <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm text-center">
+                    <div class="w-12 h-12 bg-lavender-100 text-lavender-700 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Python</h3>
+                    <p class="text-sm text-gray-500">Pandas, NumPy 활용</p>
+                </div>
+                <!-- Skill 2 -->
+                <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm text-center">
+                    <div class="w-12 h-12 bg-lavender-100 text-lavender-700 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">데이터 마이닝</h3>
+                    <p class="text-sm text-gray-500">크롤링 및 전처리</p>
+                </div>
+                <!-- Skill 3 -->
+                <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm text-center">
+                    <div class="w-12 h-12 bg-lavender-100 text-lavender-700 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">데이터 시각화</h3>
+                    <p class="text-sm text-gray-500">Matplotlib, Seaborn</p>
+                </div>
+                <!-- Skill 4 -->
+                <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm text-center">
+                    <div class="w-12 h-12 bg-lavender-100 text-lavender-700 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">분석 보고서</h3>
+                    <p class="text-sm text-gray-500">인사이트 도출 및 문서화</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 border-b border-gray-200 pb-4 flex justify-between items-end">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">주요 프로젝트</h2>
+                    <p class="mt-2 text-gray-600">수업 중 수행한 분석 과제 목록입니다.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1 -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="h-40 bg-gray-100 border-b border-gray-200 flex items-center justify-center">
+                        <i class="fas fa-scooter text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded">교통/안전</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">킥보드 교통사고 분석</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+                            개인형 이동장치(PM) 이용 증가에 따른 사고 유형 및 빈도를 분석하고, 사고 다발 구역의 특징을 파악하여 안전 대책을 제안한 프로젝트입니다.
+                        </p>
+                        <a href="01.html" class="inline-block text-sm font-medium text-lavender-700 hover:text-lavender-900 hover:underline">
+                            상세 내용 보기 &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="h-40 bg-gray-100 border-b border-gray-200 flex items-center justify-center">
+                        <i class="fas fa-temperature-high text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded">환경</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">지구 온난화 분석</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+                            연도별 기온 상승 추이와 이산화탄소 배출량 간의 상관관계를 분석하여, 온난화의 가속화 시점을 시각적으로 구현했습니다.
+                        </p>
+                        <a href="02.html" class="inline-block text-sm font-medium text-lavender-700 hover:text-lavender-900 hover:underline">
+                            상세 내용 보기 &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="h-40 bg-gray-100 border-b border-gray-200 flex items-center justify-center">
+                        <i class="fas fa-brain text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-800 text-white rounded">조별 과제</span>
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded ml-2">사회/건강</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">청소년 스트레스 인지율</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+                            청소년들의 학업, 가정 환경 등 주요 스트레스 요인을 파악하고, 연도별 인지율 변화 추이를 분석한 보고서입니다.
+                        </p>
+                        <a href="03.html" class="inline-block text-sm font-medium text-lavender-700 hover:text-lavender-900 hover:underline">
+                            상세 내용 보기 &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 4 (Individual) -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="h-40 bg-gray-100 border-b border-gray-200 flex items-center justify-center">
+                        <i class="fas fa-university text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-lavender-100 text-lavender-800 rounded">개별 과제</span>
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded ml-2">교육/비용</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">산업공학과 등록금 분석</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+                            전국 주요 대학 산업공학과의 등록금 데이터를 수집하여 비교 분석하고, 진학 시 필요한 경제적 비용을 산출했습니다.
+                        </p>
+                        <a href="04.html" class="inline-block text-sm font-medium text-lavender-700 hover:text-lavender-900 hover:underline">
+                            상세 내용 보기 &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 5 (Group) -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="h-40 bg-gray-100 border-b border-gray-200 flex items-center justify-center">
+                        <i class="fab fa-youtube text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-800 text-white rounded">조별 과제</span>
+                            <span class="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-600 rounded ml-2">AI/윤리</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">AI 윤리 유튜브 분석</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
+                            AI 윤리 관련 유튜브 영상의 댓글을 크롤링하여 대중의 인식을 긍정/부정으로 분류하고, 주요 키워드를 도출했습니다.
+                        </p>
+                        <a href="05.html" class="inline-block text-sm font-medium text-lavender-700 hover:text-lavender-900 hover:underline">
+                            상세 내용 보기 &rarr;
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-100 text-gray-600 py-12 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <span class="font-bold text-lg text-gray-800">Data Portfolio</span>
+                <p class="text-sm mt-2">빅데이터 분석 교과목 포트폴리오 사이트입니다.</p>
+            </div>
+            
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-500 hover:text-lavender-700 transition-colors">
+                    <i class="fas fa-envelope text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-lavender-700 transition-colors">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-8 text-xs text-gray-500">
+            &copy; 2024 Big Data Analysis Portfolio. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
