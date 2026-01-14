@@ -21,12 +21,13 @@
     <!-- 내비게이션 -->
     <nav class="fixed top-0 w-full z-50 nav-glass h-16">
         <div class="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
-            <div class="font-black text-xl text-slate-800 flex items-center gap-2 tracking-tighter">
+            <div class="font-black text-xl text-slate-800 flex items-center gap-2 tracking-tighter cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 IE COST REPORT
             </div>
             <div class="flex items-center gap-6 text-sm font-bold">
-                <a href="#" class="flex items-center gap-1 text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">
+                <!-- 홈으로 버튼: ID가 home인 곳으로 이동하도록 설정 -->
+                <a href="#home" class="flex items-center gap-1 text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">
                     홈으로
                 </a>
                 <a href="#intro" class="text-slate-500 hover:text-slate-900 transition-colors hidden md:block">서론: 지역분포</a>
@@ -36,8 +37,8 @@
         </div>
     </nav>
 
-    <!-- 히어로 섹션 -->
-    <header class="h-[70vh] flex flex-col items-center justify-center hero-gradient text-white px-6 text-center pt-16">
+    <!-- 히어로 섹션 (ID home 추가) -->
+    <header id="home" class="h-[70vh] flex flex-col items-center justify-center hero-gradient text-white px-6 text-center pt-16 scroll-mt-16">
         <span class="px-3 py-1 border border-slate-400 rounded-full text-slate-300 text-xs font-bold tracking-widest mb-6 uppercase">2025 Tuition Analysis</span>
         <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
             산업공학 전공,<br/>
@@ -221,7 +222,6 @@
 
         // 2. 본론: 등록금 차트 (Bar)
         const tuitionCtx = document.getElementById('tuitionChart').getContext('2d');
-        // 등록금 높은 순 정렬
         const sortedData = [...univData].sort((a, b) => b.tuition - a.tuition);
 
         new Chart(tuitionCtx, {
@@ -255,7 +255,6 @@
 
         // 3. 결론: 4년 총비용 테이블 생성
         const tableBody = document.getElementById('costTableBody');
-        // 총비용 높은 순 정렬
         const costData = [...univData].sort((a, b) => (b.tuition * 4) - (a.tuition * 4));
 
         costData.forEach(univ => {
