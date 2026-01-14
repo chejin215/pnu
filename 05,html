@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-팝 데몬 헌터스 심층 분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;400;700;900&display=swap');
+        
+        :root {
+            --deep-purple: #1a0b2e;
+            --neon-purple: #a855f7;
+            --vibrant-violet: #7c3aed;
+            --soft-purple: #c084fc;
+        }
+
+        body {
+            background-color: var(--deep-purple);
+            color: #f3f4f6;
+            font-family: 'Pretendard', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at center, #4c1d95 0%, #1a0b2e 100%);
+        }
+
+        .neon-border {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--neon-purple);
+        }
+
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .highlight-text {
+            background: linear-gradient(to right, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="h-screen flex items-center justify-center relative overflow-hidden hero-gradient">
+        <div class="absolute inset-0 z-0 opacity-30">
+            <!-- Decorative SVG Pattern -->
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#a855f7" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+        </div>
+
+        <div class="container mx-auto px-6 text-center z-10">
+            <h2 class="text-soft-purple text-xl tracking-[0.3em] mb-4 animate__animated animate__fadeIn">DEEP ANALYSIS REPORT</h2>
+            <h1 class="text-6xl md:text-8xl font-black mb-8 animate__animated animate__zoomIn">
+                K-팝 데몬 헌터스<br>
+                <span class="highlight-text">글로벌 문화 현상의 해부</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-12 animate__animated animate__fadeInUp animate__delay-1s">
+                한류의 새로운 패러다임: 데이터로 입증된 성공과 스크린 너머의 경제적·문화적 파급 효과를 파헤치다.
+            </p>
+            <a href="#intro" class="scroll-indicator inline-block">
+                <svg class="w-10 h-10 text-soft-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Section 1: Introduction -->
+    <section id="intro" class="py-24 container mx-auto px-6">
+        <div class="glass-panel p-12 rounded-3xl">
+            <h3 class="text-3xl font-bold mb-8 flex items-center">
+                <span class="w-8 h-8 bg-neon-purple rounded-full mr-4 inline-block"></span>
+                서론: 새로운 한류 이정표
+            </h3>
+            <p class="text-slate-300 leading-relaxed text-lg">
+                넷플릭스 애니메이션 <span class="text-soft-purple font-bold">'K-팝 데몬 헌터스'</span>의 성공은 단순한 흥행작의 탄생을 넘어, 글로벌 콘텐츠 시장에서 한류의 위상에 새로운 이정표를 제시합니다. 본 보고서는 경이적인 성공을 이끈 핵심 요인을 다각도로 분석하고, 향후 K-콘텐츠가 공고히 해야 할 성공 방정식을 도출합니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 2: Data Dashboard -->
+    <section class="py-20 bg-black/30 px-6">
+        <div class="container mx-auto">
+            <h3 class="text-4xl font-black mb-16 text-center">성공의 해부학: <span class="text-neon-purple">DATA</span></h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="stat-card glass-panel p-8 rounded-2xl text-center transition-all duration-300 neon-border">
+                    <p class="text-soft-purple text-sm font-bold mb-2">넷플릭스 영화 부문 1위</p>
+                    <h4 class="text-5xl font-black mb-2">41개국</h4>
+                    <p class="text-slate-500 text-xs">전 세계 시장 석권</p>
+                </div>
+                <div class="stat-card glass-panel p-8 rounded-2xl text-center transition-all duration-300 neon-border">
+                    <p class="text-soft-purple text-sm font-bold mb-2">빌보드 글로벌 200</p>
+                    <h4 class="text-5xl font-black mb-2">1위</h4>
+                    <p class="text-slate-500 text-xs">가상 아티스트 최초</p>
+                </div>
+                <div class="stat-card glass-panel p-8 rounded-2xl text-center transition-all duration-300 neon-border">
+                    <p class="text-soft-purple text-sm font-bold mb-2">OST 재생수 (3주)</p>
+                    <h4 class="text-5xl font-black mb-2">5,600만</h4>
+                    <p class="text-slate-500 text-xs">'겨울왕국' 이후 최대 히트</p>
+                </div>
+                <div class="stat-card glass-panel p-8 rounded-2xl text-center transition-all duration-300 neon-border">
+                    <p class="text-soft-purple text-sm font-bold mb-2">박물관 관람객 (상반기)</p>
+                    <h4 class="text-5xl font-black mb-2">270만</h4>
+                    <p class="text-slate-500 text-xs">20년 만에 최대 관람객</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Cultural Hybrid -->
+    <section class="py-24 container mx-auto px-6">
+        <h3 class="text-4xl font-black mb-16">가장 한국적인 것의 <span class="text-neon-purple">세계화</span></h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Hybrid Points -->
+            <div class="space-y-6">
+                <div class="flex items-start p-6 glass-panel rounded-xl hover:bg-white/10 transition cursor-default">
+                    <div class="bg-vibrant-violet p-3 rounded-lg mr-6 mt-1">🐯</div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">호작도(까치 호랑이)</h4>
+                        <p class="text-slate-400">민화 속 존재가 귀여운 캐릭터로 재탄생하여 굿즈 열풍 견인</p>
+                    </div>
+                </div>
+                <div class="flex items-start p-6 glass-panel rounded-xl hover:bg-white/10 transition cursor-default">
+                    <div class="bg-vibrant-violet p-3 rounded-lg mr-6 mt-1">🎩</div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">갓과 도포</h4>
+                        <p class="text-slate-400">사자보이즈의 무대 의상으로 활용되어 역동적 미학 완성</p>
+                    </div>
+                </div>
+                <div class="flex items-start p-6 glass-panel rounded-xl hover:bg-white/10 transition cursor-default">
+                    <div class="bg-vibrant-violet p-3 rounded-lg mr-6 mt-1">🗡️</div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">사인검(四寅劍)</h4>
+                        <p class="text-slate-400">전통 보검의 디테일을 살린 주인공의 강력한 퇴마 무기</p>
+                    </div>
+                </div>
+                <div class="flex items-start p-6 glass-panel rounded-xl hover:bg-white/10 transition cursor-default">
+                    <div class="bg-vibrant-violet p-3 rounded-lg mr-6 mt-1">🍜</div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">현실 고증 (디테일)</h4>
+                        <p class="text-slate-400">수저 놓기 전 휴지 깔기, 한의원 방문 등 '진짜 한국'의 생활상 묘사</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Image / Visual Placeholder -->
+            <div class="relative flex items-center justify-center">
+                <div class="absolute inset-0 bg-soft-purple/20 blur-3xl rounded-full"></div>
+                <div class="relative w-full aspect-square glass-panel rounded-full flex flex-col items-center justify-center border-2 border-dashed border-soft-purple animate-pulse">
+                    <span class="text-5xl mb-4">✨</span>
+                    <p class="text-soft-purple font-bold">전통 X 현대 융합의 핵심</p>
+                    <p class="text-slate-500 text-sm mt-2">K-HERITAGE MODERNIZED</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Critical Perspective (Interactive) -->
+    <section class="py-24 bg-black/40 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h3 class="text-4xl font-black mb-8">수익과 자부심 사이: <span class="text-red-400">비판적 고찰</span></h3>
+            <p class="text-slate-300 mb-12 italic leading-relaxed">
+                "돈은 소니하고 넷플릭스만 벌고 우리는 기분만 좋다?" <br>
+                글로벌 플랫폼 시대의 IP 비즈니스 구조를 둘러싼 뜨거운 논쟁
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-8 glass-panel border-l-4 border-red-500 text-left">
+                    <h4 class="font-bold text-red-400 mb-4">하청 기지 논란</h4>
+                    <p class="text-sm text-slate-400">한국의 아이디어를 제공하고 경제적 이익은 거대 플랫폼이 독식하는 구조에 대한 우려</p>
+                </div>
+                <div class="p-8 glass-panel border-l-4 border-green-500 text-left">
+                    <h4 class="font-bold text-green-400 mb-4">소프트파워 반론</h4>
+                    <p class="text-sm text-slate-400">직접 수익보다 더 큰 무형의 가치(국가 이미지, 브랜드 인지도)가 장기적으로 더 큰 이익이라는 주장</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Conclusion & Strategy -->
+    <section class="py-24 container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h3 class="text-4xl font-black mb-4">K-콘텐츠의 <span class="text-neon-purple">미래 전략</span></h3>
+            <div class="w-24 h-1 bg-neon-purple mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-10 glass-panel rounded-3xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-vibrant-violet/20 rounded-bl-full transition-all group-hover:scale-150"></div>
+                <span class="text-4xl mb-6 inline-block">01</span>
+                <h4 class="text-xl font-bold mb-4">창조적 재해석</h4>
+                <p class="text-slate-400 text-sm">단순 전시를 넘어 현대적 감각과 스토리텔링으로 새로운 가치 창출</p>
+            </div>
+            <div class="p-10 glass-panel rounded-3xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-vibrant-violet/20 rounded-bl-full transition-all group-hover:scale-150"></div>
+                <span class="text-4xl mb-6 inline-block">02</span>
+                <h4 class="text-xl font-bold mb-4">영리한 IP 전략</h4>
+                <p class="text-slate-400 text-sm">글로벌 자본과의 협력 과정에서 주도적인 수익 배분 및 소유권 확보</p>
+            </div>
+            <div class="p-10 glass-panel rounded-3xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-vibrant-violet/20 rounded-bl-full transition-all group-hover:scale-150"></div>
+                <span class="text-4xl mb-6 inline-block">03</span>
+                <h4 class="text-xl font-bold mb-4">소프트파워 가치</h4>
+                <p class="text-slate-400 text-sm">돈으로 환산할 수 없는 국가 브랜드 및 관광 유치 등 무형 자산 극대화</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/10 text-center">
+        <p class="text-slate-500 text-sm">© 2026 심층 분석 보고서: K-팝 데몬 헌터스. All Rights Reserved.</p>
+        <div class="mt-4 flex justify-center space-x-4 opacity-50">
+            <span class="w-3 h-3 bg-neon-purple rounded-full"></span>
+            <span class="w-3 h-3 bg-vibrant-violet rounded-full"></span>
+            <span class="w-3 h-3 bg-soft-purple rounded-full"></span>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.stat-card, .glass-panel').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
