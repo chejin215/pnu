@@ -44,6 +44,7 @@
 
         .project-card {
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
         }
 
         .project-card:hover {
@@ -204,8 +205,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <!-- Project 1 -->
-                <div class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <!-- Project 1: 킥보드 교통사고 분석 (01.html) -->
+                <div onclick="location.href='01.html'" class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                     <div class="h-44 bg-lavender-50 flex items-center justify-center group overflow-hidden">
                         <i class="fas fa-scooter text-5xl text-lavender-300 transition-transform group-hover:scale-125 duration-700"></i>
                     </div>
@@ -217,14 +218,14 @@
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
                             개인형 이동장치 이용 패턴과 사고 다발 구역간의 상관관계를 시각화하여 안전 대책을 제안하였습니다.
                         </p>
-                        <button class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
+                        <a href="01.html" class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
                             DETAILS <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <!-- Project 2: 지구 온난화 분석 (02.html) -->
+                <div onclick="location.href='02.html'" class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                     <div class="h-44 bg-blue-50 flex items-center justify-center group">
                         <i class="fas fa-temperature-high text-5xl text-blue-200 transition-transform group-hover:scale-125 duration-700"></i>
                     </div>
@@ -236,14 +237,14 @@
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
                             글로벌 기온 데이터와 탄소 배출량 수치를 분석하여 기후 위기의 심각성을 데이터로 증명하였습니다.
                         </p>
-                        <button class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
+                        <a href="02.html" class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
                             DETAILS <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Project 3 -->
-                <div class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <!-- Project 3: 청소년 스트레스 분석 (03.html) -->
+                <div onclick="location.href='03.html'" class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                     <div class="h-44 bg-purple-50 flex items-center justify-center group">
                         <i class="fas fa-brain text-5xl text-purple-200 transition-transform group-hover:scale-125 duration-700"></i>
                     </div>
@@ -252,18 +253,18 @@
                             <span class="px-2.5 py-1 text-[10px] font-bold bg-gray-900 text-white rounded">조별 과제</span>
                             <span class="px-2.5 py-1 text-[10px] font-bold bg-purple-100 text-purple-700 rounded">사회/건강</span>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">청소년 스트레스 분석</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">청소년 스트레스 인지율 분석</h3>
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
                             학업 및 환경적 요인이 청소년 심리에 미치는 영향을 다각도로 분석하여 유의미한 상관관계를 도출했습니다.
                         </p>
-                        <button class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
+                        <a href="03.html" class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
                             DETAILS <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Project 4 -->
-                <div class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <!-- Project 4: 산업공학과 등록금 분석 (04.html) -->
+                <div onclick="location.href='04.html'" class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                     <div class="h-44 bg-amber-50 flex items-center justify-center group">
                         <i class="fas fa-university text-5xl text-amber-200 transition-transform group-hover:scale-125 duration-700"></i>
                     </div>
@@ -272,18 +273,18 @@
                             <span class="px-2.5 py-1 text-[10px] font-bold bg-lavender-100 text-lavender-700 rounded">개별 과제</span>
                             <span class="px-2.5 py-1 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">교육/비용</span>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">산업공학과 등록금 분석</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">산업공학과 가려면 등록금 얼마나?</h3>
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
                             전국 대학 산업공학과의 등록금 편차와 교육 여건 사이의 관계를 데이터 기반으로 비교 분석했습니다.
                         </p>
-                        <button class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
+                        <a href="04.html" class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
                             DETAILS <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Project 5 -->
-                <div class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <!-- Project 5: AI 윤리 유튜브 댓글 분석 (05.html) -->
+                <div onclick="location.href='05.html'" class="project-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                     <div class="h-44 bg-red-50 flex items-center justify-center group">
                         <i class="fab fa-youtube text-5xl text-red-200 transition-transform group-hover:scale-125 duration-700"></i>
                     </div>
@@ -296,9 +297,9 @@
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
                             유튜브 댓글 크롤링을 통해 대중의 인식을 분석하고 인공지능 윤리에 대한 사회적 합의점을 분석했습니다.
                         </p>
-                        <button class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
+                        <a href="05.html" class="inline-flex items-center text-sm font-bold text-lavender-600 hover:text-lavender-800 transition-colors">
                             DETAILS <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
