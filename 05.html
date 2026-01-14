@@ -61,9 +61,43 @@
             -webkit-text-fill-color: transparent;
             font-weight: 800;
         }
+
+        /* Floating Home Button Style */
+        .home-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            background: rgba(168, 85, 247, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--soft-purple);
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            color: white;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .home-btn:hover {
+            background: var(--vibrant-violet);
+            box-shadow: 0 0 20px var(--neon-purple);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
+
+    <!-- Floating Home Button -->
+    <a href="https://chejin215.github.io/pnu/index.html" class="home-btn animate__animated animate__fadeInLeft">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
+        <span>HOME</span>
+    </a>
 
     <!-- Hero Section -->
     <section class="h-screen flex items-center justify-center relative overflow-hidden hero-gradient">
@@ -173,7 +207,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Image / Visual Placeholder -->
+            <!-- Visual Placeholder -->
             <div class="relative flex items-center justify-center">
                 <div class="absolute inset-0 bg-soft-purple/20 blur-3xl rounded-full"></div>
                 <div class="relative w-full aspect-square glass-panel rounded-full flex flex-col items-center justify-center border-2 border-dashed border-soft-purple animate-pulse">
@@ -185,7 +219,7 @@
         </div>
     </section>
 
-    <!-- Section 4: Critical Perspective (Interactive) -->
+    <!-- Section 4: Critical Perspective -->
     <section class="py-24 bg-black/40 px-6">
         <div class="max-w-4xl mx-auto text-center">
             <h3 class="text-4xl font-black mb-8">수익과 자부심 사이: <span class="text-red-400">비판적 고찰</span></h3>
@@ -239,15 +273,9 @@
     <!-- Footer -->
     <footer class="py-12 border-t border-white/10 text-center">
         <p class="text-slate-500 text-sm">© 2026 심층 분석 보고서: K-팝 데몬 헌터스. All Rights Reserved.</p>
-        <div class="mt-4 flex justify-center space-x-4 opacity-50">
-            <span class="w-3 h-3 bg-neon-purple rounded-full"></span>
-            <span class="w-3 h-3 bg-vibrant-violet rounded-full"></span>
-            <span class="w-3 h-3 bg-soft-purple rounded-full"></span>
-        </div>
     </footer>
 
     <script>
-        // Simple Intersection Observer for scroll animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
