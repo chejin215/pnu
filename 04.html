@@ -21,13 +21,14 @@
     <!-- 내비게이션 -->
     <nav class="fixed top-0 w-full z-50 nav-glass h-16">
         <div class="max-w-6xl mx-auto px-6 h-full flex items-center justify-between">
+            <!-- 로고 클릭 시 페이지 최상단으로 이동 -->
             <div class="font-black text-xl text-slate-800 flex items-center gap-2 tracking-tighter cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 IE COST REPORT
             </div>
             <div class="flex items-center gap-6 text-sm font-bold">
-                <!-- 홈으로 버튼: ID가 home인 곳으로 이동하도록 설정 -->
-                <a href="#home" class="flex items-center gap-1 text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">
+                <!-- 홈으로 버튼: 요청하신 외부 URL로 링크 수정 -->
+                <a href="https://chejin215.github.io/pnu/index.html" class="flex items-center gap-1 text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">
                     홈으로
                 </a>
                 <a href="#intro" class="text-slate-500 hover:text-slate-900 transition-colors hidden md:block">서론: 지역분포</a>
@@ -37,7 +38,7 @@
         </div>
     </nav>
 
-    <!-- 히어로 섹션 (ID home 추가) -->
+    <!-- 히어로 섹션 -->
     <header id="home" class="h-[70vh] flex flex-col items-center justify-center hero-gradient text-white px-6 text-center pt-16 scroll-mt-16">
         <span class="px-3 py-1 border border-slate-400 rounded-full text-slate-300 text-xs font-bold tracking-widest mb-6 uppercase">2025 Tuition Analysis</span>
         <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
@@ -53,7 +54,7 @@
         </a>
     </header>
 
-    <!-- 1. 서론: 지역별 분포 (Intro style) -->
+    <!-- 1. 서론: 지역별 분포 -->
     <section id="intro" class="py-20 bg-white border-b border-slate-100 scroll-mt-16">
         <div class="max-w-5xl mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center gap-10">
@@ -101,14 +102,12 @@
                 <p class="text-slate-500 text-sm">2025년 공시 기준, 대학별 1년 수업료 비교 (단위: 만 원)</p>
             </div>
 
-            <!-- 바 차트 영역 -->
             <div class="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-sm border border-slate-200 mb-12">
                 <div class="chart-box" style="height: 400px;">
                     <canvas id="tuitionChart"></canvas>
                 </div>
             </div>
 
-            <!-- 인사이트 카드 -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-8 rounded-2xl border border-slate-100 highlight-card flex items-center justify-between">
                     <div>
@@ -134,7 +133,6 @@
 
     <!-- 3. 결론: 4년 총비용 -->
     <section id="conclusion" class="py-24 bg-slate-900 text-white scroll-mt-16 relative overflow-hidden">
-        <!-- 배경 장식 -->
         <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600 rounded-full opacity-10 blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
         <div class="max-w-4xl mx-auto px-6 relative z-10">
@@ -147,7 +145,6 @@
                 </p>
             </div>
 
-            <!-- 총 비용 테이블 -->
             <div class="bg-slate-800 rounded-3xl overflow-hidden border border-slate-700 shadow-2xl">
                 <table class="w-full text-left">
                     <thead>
@@ -158,7 +155,6 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-700 text-sm md:text-base" id="costTableBody">
-                        <!-- JS로 렌더링 -->
                     </tbody>
                 </table>
             </div>
@@ -174,7 +170,6 @@
         </div>
     </section>
 
-    <!-- 푸터 -->
     <footer class="bg-slate-950 text-slate-500 py-10 text-center border-t border-slate-900">
         <div class="max-w-6xl mx-auto px-6">
             <p class="text-xs font-medium">© 2025 IE COST REPORT. All rights reserved.</p>
@@ -183,7 +178,6 @@
     </footer>
 
     <script>
-        // 데이터셋
         const univData = [
             { name: "건국대학교", region: "서울", tuition: 979, type: "사립" },
             { name: "계명대학교", region: "대구", tuition: 909, type: "사립" },
@@ -194,7 +188,6 @@
             { name: "선문대학교(원)", region: "충남", tuition: 522, type: "사립" }
         ];
 
-        // 1. 서론: 지역별 차트 (Doughnut)
         const introCtx = document.getElementById('introRegionChart').getContext('2d');
         const regionCounts = {};
         univData.forEach(d => regionCounts[d.region] = (regionCounts[d.region] || 0) + 1);
@@ -220,7 +213,6 @@
             }
         });
 
-        // 2. 본론: 등록금 차트 (Bar)
         const tuitionCtx = document.getElementById('tuitionChart').getContext('2d');
         const sortedData = [...univData].sort((a, b) => b.tuition - a.tuition);
 
@@ -253,7 +245,6 @@
             }
         });
 
-        // 3. 결론: 4년 총비용 테이블 생성
         const tableBody = document.getElementById('costTableBody');
         const costData = [...univData].sort((a, b) => (b.tuition * 4) - (a.tuition * 4));
 
