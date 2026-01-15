@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 윤리 & 디지털 신뢰 위기 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            scroll-behavior: smooth;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+
+        .text-gradient-creative {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-crisis {
+            background: linear-gradient(135deg, #e11d48, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-creative {
+            border-top: 4px solid #7c3aed;
+            background: linear-gradient(to bottom right, #ffffff, #f5f3ff);
+        }
+
+        .card-crisis {
+            border-top: 4px solid #e11d48;
+            background: linear-gradient(to bottom right, #ffffff, #fff1f2);
+        }
+
+        .card-solution {
+            border-top: 4px solid #10b981;
+            background: linear-gradient(to bottom right, #ffffff, #f0fdf4);
+        }
+
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .active-nav-creative { color: #7c3aed; font-weight: 700; }
+        .active-nav-creative::after { width: 100%; background-color: #7c3aed; }
+
+        .active-nav-crisis { color: #e11d48; font-weight: 700; }
+        .active-nav-crisis::after { width: 100%; background-color: #e11d48; }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-tr from-violet-600 to-rose-500 rounded-lg"></div>
+                    <span class="text-xl font-black text-slate-900 tracking-tighter">AI 윤리 2024</span>
+                </div>
+                <div class="hidden md:flex space-x-10 text-sm font-bold tracking-tight text-slate-500 uppercase">
+                    <!-- 홈 버튼 링크 수정 -->
+                    <a href="https://chejin215.github.io/pnu/index.html" class="nav-link text-slate-900">홈</a>
+                    <button onclick="showSection('creative')" id="btn-creative" class="nav-link hover:text-violet-600">창작자 권리</button>
+                    <button onclick="showSection('crisis')" id="btn-crisis" class="nav-link hover:text-rose-600">딥페이크 위기</button>
+                    <button onclick="showSection('roadmap')" id="btn-roadmap" class="nav-link hover:text-emerald-600">로드맵</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- SECTION: HOME / HERO -->
+        <section id="home" class="space-y-16">
+            <div class="text-center space-y-6 py-12">
+                <h1 class="text-5xl md:text-7xl font-black text-slate-900 leading-tight">
+                    진화하는 AI,<br>
+                    <span class="text-gradient-creative">창작의 가치</span>와 <span class="text-gradient-crisis">사회의 신뢰</span>를 묻다
+                </h1>
+                <p class="text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed">
+                    생성형 AI 기술이 가져온 혁신의 이면을 데이터로 분석합니다. <br class="hidden md:block">
+                    무단 학습의 윤리적 문제부터 딥페이크 사칭 광고의 사회적 위협까지, 실태와 대안을 탐색해 보세요.
+                </p>
+                <div class="flex justify-center space-x-4 pt-4">
+                    <button onclick="showSection('creative')" class="px-8 py-4 bg-violet-600 text-white font-bold rounded-full shadow-lg shadow-violet-200 hover:bg-violet-700 transition">창작자 쟁점 분석</button>
+                    <button onclick="showSection('crisis')" class="px-8 py-4 bg-rose-600 text-white font-bold rounded-full shadow-lg shadow-rose-200 hover:bg-rose-700 transition">딥페이크 실태 고발</button>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="p-10 rounded-3xl card-creative hover-lift relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-32 h-32 bg-violet-100 rounded-full opacity-50"></div>
+                    <div class="relative">
+                        <span class="text-4xl mb-6 block">🎨</span>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">창작자의 정당한 권리</h2>
+                        <p class="text-slate-600 leading-relaxed mb-6">인간 창작자의 데이터를 동의 없이 '학습'이라는 명목으로 수집하는 행위, 이것은 기술적 진보일까요, 아니면 정교한 도용일까요?</p>
+                        <ul class="space-y-2 mb-8 text-sm font-semibold text-violet-700">
+                            <li>#웹툰_AI_작화_논란</li>
+                            <li>#무단_학습_데이터</li>
+                            <li>#창작_노동의_가치</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="p-10 rounded-3xl card-crisis hover-lift relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-32 h-32 bg-rose-100 rounded-full opacity-50"></div>
+                    <div class="relative">
+                        <span class="text-4xl mb-6 block">🚨</span>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">무너지는 사회적 신뢰</h2>
+                        <p class="text-slate-600 leading-relaxed mb-6">전문가의 권위를 해킹하는 딥페이크 광고. 더 이상 눈에 보이는 것조차 믿을 수 없는 시대를 맞이한 소비자들의 위기를 진단합니다.</p>
+                        <ul class="space-y-2 mb-8 text-sm font-semibold text-rose-700">
+                            <li>#전문가_사칭_광고</li>
+                            <li>#신뢰_해킹(Trust_Hacking)</li>
+                            <li>#플랫폼_책임_부재</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: CREATOR RIGHTS -->
+        <section id="creative" class="hidden space-y-12">
+            <div class="bg-violet-600 text-white p-12 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center">
+                <div class="max-w-2xl">
+                    <h2 class="text-4xl font-black mb-4">쟁점 1. 창작 권리 침해와 무단 학습</h2>
+                    <p class="opacity-90 leading-relaxed">
+                        최근 웹툰 작화 의혹 사건은 기술이 창작의 영역을 침범할 때 발생하는 사회적 갈등을 단적으로 보여줍니다. 
+                        단순히 기술의 효율성을 넘어, 인간의 정체성과 직결된 '화풍'과 '노력'이 어떻게 데이터로 취급되는지 분석합니다.
+                    </p>
+                </div>
+                <div class="text-6xl mt-6 md:mt-0 opacity-20">🎨</div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-10">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-xl font-bold text-slate-800">📊 대중 인식 키워드 (데이터 분석)</h3>
+                        <span class="text-xs bg-violet-100 text-violet-700 px-3 py-1 rounded-full font-bold uppercase">주제: 웹툰 AI</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="creatorChart"></canvas>
+                    </div>
+                    <p class="mt-6 text-sm text-slate-500 leading-relaxed bg-slate-50 p-4 rounded-xl italic">
+                        "단순한 기술적 호기심을 넘어 '학습'과 '저작권'이라는 법적·윤리적 용어가 상위권에 랭크되었습니다."
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="p-8 bg-gradient-to-br from-indigo-600 to-violet-700 text-white rounded-3xl shadow-lg">
+                        <h4 class="text-lg font-bold mb-4 flex items-center">
+                            <span class="mr-2">💡</span> 인간 vs AI 학습의 딜레마
+                        </h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="bg-white/10 p-4 rounded-2xl border border-white/20">
+                                <p class="font-bold text-indigo-200 mb-2">인간의 학습</p>
+                                <p class="opacity-80">영감을 얻고 해석하며 자신만의 스타일로 승화</p>
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-2xl border border-white/20">
+                                <p class="font-bold text-indigo-200 mb-2">AI의 학습</p>
+                                <p class="opacity-80">방대한 데이터를 통계적으로 파악하여 결과 도출</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: TRUST CRISIS -->
+        <section id="crisis" class="hidden space-y-12">
+            <div class="bg-rose-600 text-white p-12 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center">
+                <div class="max-w-2xl">
+                    <h2 class="text-4xl font-black mb-4">쟁점 2. 사회적 신뢰 해킹과 딥페이크</h2>
+                    <p class="opacity-90 leading-relaxed">
+                        의사 가운을 입은 AI가 가짜 약을 처방합니다. 이것은 단순한 과장 광고가 아니라 전문가에 대한 신뢰를 해킹하는 디지털 범죄입니다.
+                    </p>
+                </div>
+                <div class="text-6xl mt-6 md:mt-0 opacity-20">🚨</div>
+            </div>
+
+            <div class="grid lg:grid-cols-5 gap-10">
+                <div class="lg:col-span-3 space-y-8">
+                    <h3 class="text-2xl font-bold text-slate-800 flex items-center">
+                        <span class="mr-3 text-rose-600">●</span> 딥페이크 기만 광고의 구조 해부
+                    </h3>
+                    <div class="bg-slate-900 p-2 rounded-3xl shadow-2xl relative overflow-hidden group">
+                        <div class="bg-white rounded-2xl overflow-hidden aspect-video flex flex-col">
+                            <div onclick="revealTactic('frame')" class="bg-[#c00] text-white px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-red-700">
+                                <span class="font-black italic">속보 (BREAKING NEWS)</span>
+                                <span class="animate-pulse bg-white/20 px-2 rounded text-xs">LIVE</span>
+                            </div>
+                            <div onclick="revealTactic('persona')" class="flex-grow bg-slate-100 relative flex items-center justify-center cursor-pointer overflow-hidden group">
+                                <div class="text-9xl grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition duration-700">👨‍⚕️</div>
+                                <div class="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md text-white p-3 rounded-lg border border-white/20">
+                                    <p class="text-xs font-bold text-rose-400 mb-1">피부과 전문의 김박사 (AI 생성)</p>
+                                    <p class="text-sm">"제가 전재산을 걸고 이 제품을 보증합니다."</p>
+                                </div>
+                            </div>
+                            <div onclick="revealTactic('psych')" class="bg-gradient-to-r from-amber-400 to-orange-500 p-5 text-center cursor-pointer hover:brightness-110">
+                                <p class="text-xl font-black text-slate-900 tracking-tight italic">⚠️ 단 3일, 마지막 수량 -90% 할인!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tactic-card" class="bg-white p-8 rounded-3xl border border-rose-100 shadow-lg min-h-[160px] flex items-center justify-center text-center">
+                        <p class="text-slate-400 font-medium italic">광고의 각 요소를 클릭하여 기만 전략을 확인하세요.</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-800 mb-6">📉 소비자 반응 분석</h3>
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="crisisChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: ROADMAP -->
+        <section id="roadmap" class="hidden space-y-16 py-12">
+            <div class="text-center space-y-4">
+                <h2 class="text-5xl font-black text-slate-900">결론: 디지털 신뢰의 재건</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto italic">우리가 나아가야 할 방향입니다.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-8 rounded-3xl card-solution hover-lift">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center font-black text-xl mb-6">01</div>
+                    <h4 class="font-bold text-slate-900 mb-3">AI 워터마크 의무화</h4>
+                </div>
+                <div class="p-8 rounded-3xl card-solution hover-lift">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center font-black text-xl mb-6">02</div>
+                    <h4 class="font-bold text-slate-900 mb-3">데이터 사용료 시스템</h4>
+                </div>
+                <div class="p-8 rounded-3xl card-solution hover-lift">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center font-black text-xl mb-6">03</div>
+                    <h4 class="font-bold text-slate-900 mb-3">징벌적 손해배상</h4>
+                </div>
+                <div class="p-8 rounded-3xl card-solution hover-lift">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center font-black text-xl mb-6">04</div>
+                    <h4 class="font-bold text-slate-900 mb-3">윤리 감시 체계</h4>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const tacticData = {
+            frame: { title: "언론사 뉴스 프레임 도용", desc: "공신력 있는 언론 보도처럼 인식하게 만드는 시각적 전술입니다.", color: "bg-blue-50 text-blue-800 border-blue-200" },
+            persona: { title: "전문가 권위 해킹", desc: "의사, 교수 등의 외형을 딥페이크로 생성하여 신뢰를 유도합니다.", color: "bg-rose-50 text-rose-800 border-rose-200" },
+            psych: { title: "심리적 긴급성 조작", desc: "마지막 기회 등의 자극적인 멘트로 즉각적인 결제를 유도합니다.", color: "bg-amber-50 text-amber-800 border-amber-200" }
+        };
+
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.remove('text-slate-900', 'active-nav-creative', 'active-nav-crisis');
+                l.classList.add('text-slate-500');
+            });
+            const btn = document.getElementById(`btn-${id}`);
+            if(btn) {
+                if(id === 'creative') btn.classList.add('active-nav-creative');
+                else if(id === 'crisis') btn.classList.add('active-nav-crisis');
+                else btn.classList.add('text-slate-900');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function revealTactic(key) {
+            const data = tacticData[key];
+            const display = document.getElementById('tactic-card');
+            display.className = `p-8 rounded-3xl border shadow-lg animate-fade-in ${data.color}`;
+            display.innerHTML = `<div><h4 class="text-xl font-black mb-3">${data.title}</h4><p class="font-medium leading-relaxed">${data.desc}</p></div>`;
+        }
+
+        window.onload = function() {
+            const ctx1 = document.getElementById('creatorChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        data: [{ x: 10, y: 15, r: 40, label: '학습' }, { x: 40, y: 10, r: 35, label: '그림' }, { x: 25, y: 25, r: 30, label: '저작권' }],
+                        backgroundColor: ['#7c3aed', '#8b5cf6', '#a78bfa']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+            });
+
+            const ctx2 = document.getElementById('crisisChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['광고 피로도', '처벌 요구', '사기 인식', '플랫폼 비판'],
+                    datasets: [{ data: [59, 13, 13, 11], backgroundColor: ['#e11d48', '#f43f5e', '#fb7185', '#fda4af'], borderRadius: 12 }]
+                },
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        };
+    </script>
+</body>
+</html>
