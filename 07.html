@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Square Jump Mini Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f3f4f6;
+            touch-action: manipulation;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+        canvas {
+            display: block;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border-radius: 8px;
+            max-width: 100%;
+            max-height: 70vh;
+            margin: auto;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="text-center mb-4">
+        <h1 class="text-3xl font-bold text-gray-800">미니 점프 게임</h1>
+        <p class="text-gray-600">장애물을 점프로 피하세요!</p>
+    </div>
+
+    <div id="game-container" class="relative w-full flex justify-center">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Game Over Overlay -->
+        <div id="overlay" class="hidden absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white rounded-lg">
+            <h2 class="text-4xl font-bold mb-2">GAME OVER</h2>
+            <p id="final-score" class="text-xl mb-6">최종 점수: 0</p>
+            <button id="restartBtn" class="px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full font-bold transition-transform active:scale-95">
+                다시 시작
+            </button>
+        </div>
+    </div>
+
+    <div class="mt-6 flex flex-col items-center gap-4">
+        <div class="flex gap-10 text-lg font-semibold">
+            <div class="text-blue-600">점수: <span id="score">0</span></div>
+            <div class="text-red-500">최고 점수: <span id="highScore">0</span></div>
+        </div>
+        
+        <div class="text-sm text-gray-500 text-center">
+            PC: <span class="font-bold">Space</span> 또는 <span class="font-bold">↑</span> 키로 점프<br>
+            모바일: <span class="font-bold">화면 터치</span>로 점프
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('highScore');
+        const overlay = document.getElementById('overlay');
+        const finalScoreElement = document.getElementById('final-score');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // 게임 설정
+        let gameWidth = 600;
+        let gameHeight = 300;
+        let score = 0;
+        let highScore = 0;
+        let isGameOver = false;
+        let animationId;
+
+        // 플레이어 설정
+        const player = {
+            x: 50,
+            y: 0,
+            width: 40,
+            height: 40,
+            color: '#3b82f6',
+            dy: 0,
+            jumpForce: 12,
+            gravity: 0.6,
+            grounded: false,
+            draw() {
+                ctx.fillStyle = this.color;
+                // 둥근 사각형 그리기
+                ctx.beginPath();
+                ctx.roundRect(this.x, this.y, this.width, this.height, 8);
+                ctx.fill();
+            }
+        };
+
+        // 장애물 배열
+        let obstacles = [];
+        const obstacleConfig = {
+            minWidth: 20,
+            maxWidth: 50,
+            minHeight: 30,
+            maxHeight: 70,
+            speed: 5,
+            nextSpawn: 0
+        };
+
+        function resize() {
+            const containerWidth = document.getElementById('game-container').clientWidth;
+            canvas.width = Math.min(containerWidth, 800);
+            canvas.height = 300;
+            gameWidth = canvas.width;
+            gameHeight = canvas.height;
+            player.y = gameHeight - player.height;
+        }
+
+        function spawnObstacle() {
+            const height = Math.random() * (obstacleConfig.maxHeight - obstacleConfig.minHeight) + obstacleConfig.minHeight;
+            const width = Math.random() * (obstacleConfig.maxWidth - obstacleConfig.minWidth) + obstacleConfig.minWidth;
+            
+            obstacles.push({
+                x: gameWidth,
+                y: gameHeight - height,
+                width: width,
+                height: height,
+                color: '#ef4444'
+            });
+            
+            // 다음 장애물 생성 시간 랜덤 조절
+            obstacleConfig.nextSpawn = Date.now() + Math.random() * 1000 + 800;
+        }
+
+        function jump() {
+            if (player.grounded && !isGameOver) {
+                player.dy = -player.jumpForce;
+                player.grounded = false;
+            }
+        }
+
+        function update() {
+            if (isGameOver) return;
+
+            ctx.clearRect(0, 0, gameWidth, gameHeight);
+
+            // 중력 및 이동
+            player.dy += player.gravity;
+            player.y += player.dy;
+
+            // 바닥 충돌 처리
+            if (player.y + player.height > gameHeight) {
+                player.y = gameHeight - player.height;
+                player.dy = 0;
+                player.grounded = true;
+            }
+
+            player.draw();
+
+            // 장애물 관리
+            if (Date.now() > obstacleConfig.nextSpawn) {
+                spawnObstacle();
+            }
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                const obs = obstacles[i];
+                obs.x -= obstacleConfig.speed;
+
+                // 장애물 그리기
+                ctx.fillStyle = obs.color;
+                ctx.beginPath();
+                ctx.roundRect(obs.x, obs.y, obs.width, obs.height, 4);
+                ctx.fill();
+
+                // 충돌 체크
+                if (
+                    player.x < obs.x + obs.width &&
+                    player.x + player.width > obs.x &&
+                    player.y < obs.y + obs.height &&
+                    player.y + player.height > obs.y
+                ) {
+                    gameOver();
+                }
+
+                // 화면 밖으로 나간 장애물 제거 및 점수 추가
+                if (obs.x + obs.width < 0) {
+                    obstacles.splice(i, 1);
+                    score++;
+                    scoreElement.innerText = score;
+                    // 난이도 상승
+                    if (score % 5 === 0) {
+                        obstacleConfig.speed += 0.2;
+                    }
+                }
+            }
+
+            animationId = requestAnimationFrame(update);
+        }
+
+        function gameOver() {
+            isGameOver = true;
+            cancelAnimationFrame(animationId);
+            
+            if (score > highScore) {
+                highScore = score;
+                highScoreElement.innerText = highScore;
+            }
+
+            finalScoreElement.innerText = `최종 점수: ${score}`;
+            overlay.classList.remove('hidden');
+        }
+
+        function initGame() {
+            score = 0;
+            scoreElement.innerText = score;
+            isGameOver = false;
+            obstacles = [];
+            obstacleConfig.speed = 5;
+            player.y = gameHeight - player.height;
+            player.dy = 0;
+            overlay.classList.add('hidden');
+            update();
+        }
+
+        // 입력 이벤트
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                e.preventDefault();
+                jump();
+            }
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            jump();
+        }, { passive: false });
+
+        restartBtn.addEventListener('click', initGame);
+        window.addEventListener('resize', resize);
+
+        // 시작
+        resize();
+        initGame();
+    </script>
+</body>
+</html>
